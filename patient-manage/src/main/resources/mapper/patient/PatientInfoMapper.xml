@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.patient.mapper.PatientInfoMapper">
+    
+    <resultMap type="PatientInfo" id="PatientInfoResult">
+        <result property="patientId"    column="patient_id"    />
+        <result property="name"    column="name"    />
+        <result property="gender"    column="gender"    />
+        <result property="contact"    column="contact"    />
+        <result property="date"    column="date"    />
+        <result property="age"    column="age"    />
+        <result property="skinType"    column="skin_type"    />
+        <result property="historyOfSensitivity"    column="history_of_sensitivity"    />
+        <result property="pastMedicalHistory"    column="past_medical_history"    />
+        <result property="treatmentLocation"    column="treatment_location"    />
+    </resultMap>
+
+    <sql id="selectPatientInfoVo">
+        select patient_id, name, gender, contact, date, age, skin_type, history_of_sensitivity, past_medical_history, treatment_location from patient_info
+    </sql>
+
+    <select id="selectPatientInfoList" parameterType="PatientInfo" resultMap="PatientInfoResult">
+        <include refid="selectPatientInfoVo"/>
+        <where>  
+            <if test="patientId != null "> and patient_id = #{patientId}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="gender != null  and gender != ''"> and gender = #{gender}</if>
+            <if test="contact != null  and contact != ''"> and contact = #{contact}</if>
+            <if test="date != null "> and date = #{date}</if>
+            <if test="age != null "> and age = #{age}</if>
+            <if test="skinType != null  and skinType != ''"> and skin_type = #{skinType}</if>
+            <if test="historyOfSensitivity != null "> and history_of_sensitivity = #{historyOfSensitivity}</if>
+            <if test="pastMedicalHistory != null  and pastMedicalHistory != ''"> and past_medical_history = #{pastMedicalHistory}</if>
+            <if test="treatmentLocation != null  and treatmentLocation != ''"> and treatment_location = #{treatmentLocation}</if>
+        </where>
+    </select>
+    
+    <select id="selectPatientInfoByPatientId" parameterType="Long" resultMap="PatientInfoResult">
+        <include refid="selectPatientInfoVo"/>
+        where patient_id = #{patientId}
+    </select>
+
+    <insert id="insertPatientInfo" parameterType="PatientInfo">
+        insert into patient_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="patientId != null">patient_id,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="gender != null">gender,</if>
+            <if test="contact != null">contact,</if>
+            <if test="date != null">date,</if>
+            <if test="age != null">age,</if>
+            <if test="skinType != null">skin_type,</if>
+            <if test="historyOfSensitivity != null">history_of_sensitivity,</if>
+            <if test="pastMedicalHistory != null">past_medical_history,</if>
+            <if test="treatmentLocation != null">treatment_location,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="patientId != null">#{patientId},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="gender != null">#{gender},</if>
+            <if test="contact != null">#{contact},</if>
+            <if test="date != null">#{date},</if>
+            <if test="age != null">#{age},</if>
+            <if test="skinType != null">#{skinType},</if>
+            <if test="historyOfSensitivity != null">#{historyOfSensitivity},</if>
+            <if test="pastMedicalHistory != null">#{pastMedicalHistory},</if>
+            <if test="treatmentLocation != null">#{treatmentLocation},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePatientInfo" parameterType="PatientInfo">
+        update patient_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="contact != null">contact = #{contact},</if>
+            <if test="date != null">date = #{date},</if>
+            <if test="age != null">age = #{age},</if>
+            <if test="skinType != null">skin_type = #{skinType},</if>
+            <if test="historyOfSensitivity != null">history_of_sensitivity = #{historyOfSensitivity},</if>
+            <if test="pastMedicalHistory != null">past_medical_history = #{pastMedicalHistory},</if>
+            <if test="treatmentLocation != null">treatment_location = #{treatmentLocation},</if>
+        </trim>
+        where patient_id = #{patientId}
+    </update>
+
+    <delete id="deletePatientInfoByPatientId" parameterType="Long">
+        delete from patient_info where patient_id = #{patientId}
+    </delete>
+
+    <delete id="deletePatientInfoByPatientIds" parameterType="String">
+        delete from patient_info where patient_id in 
+        <foreach item="patientId" collection="array" open="(" separator="," close=")">
+            #{patientId}
+        </foreach>
+    </delete>
+</mapper>
