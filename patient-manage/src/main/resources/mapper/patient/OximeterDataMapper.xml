@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.patient.mapper.OximeterDataMapper">
+    
+    <resultMap type="OximeterData" id="OximeterDataResult">
+        <result property="oximeterId"    column="oximeter_id"    />
+        <result property="patientId"    column="patient_id"    />
+        <result property="patientName"    column="patient_name"    />
+        <result property="spo2"    column="spo2"    />
+        <result property="pr"    column="pr"    />
+        <result property="pi"    column="pi"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectOximeterDataVo">
+        select oximeter_id, patient_id, patient_name, spo2, pr, pi, create_time from oximeter_data
+    </sql>
+
+    <select id="selectOximeterDataList" parameterType="OximeterData" resultMap="OximeterDataResult">
+        <include refid="selectOximeterDataVo"/>
+        <where>  
+            <if test="patientId != null "> and patient_id = #{patientId}</if>
+            <if test="createTime != null "> and create_time like concat('%', #{createTime}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectOximeterDataByOximeterId" parameterType="Long" resultMap="OximeterDataResult">
+        <include refid="selectOximeterDataVo"/>
+        where oximeter_id = #{oximeterId}
+    </select>
+
+    <insert id="insertOximeterData" parameterType="OximeterData">
+        insert into oximeter_data
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="oximeterId != null">oximeter_id,</if>
+            <if test="patientId != null">patient_id,</if>
+            <if test="patientName != null">patient_name,</if>
+            <if test="spo2 != null">spo2,</if>
+            <if test="pr != null">pr,</if>
+            <if test="pi != null">pi,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="oximeterId != null">#{oximeterId},</if>
+            <if test="patientId != null">#{patientId},</if>
+            <if test="patientName != null">#{patientName},</if>
+            <if test="spo2 != null">#{spo2},</if>
+            <if test="pr != null">#{pr},</if>
+            <if test="pi != null">#{pi},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOximeterData" parameterType="OximeterData">
+        update oximeter_data
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="patientId != null">patient_id = #{patientId},</if>
+            <if test="patientName != null">patient_name = #{patientName},</if>
+            <if test="spo2 != null">spo2 = #{spo2},</if>
+            <if test="pr != null">pr = #{pr},</if>
+            <if test="pi != null">pi = #{pi},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where oximeter_id = #{oximeterId}
+    </update>
+
+    <delete id="deleteOximeterDataByOximeterId" parameterType="Long">
+        delete from oximeter_data where oximeter_id = #{oximeterId}
+    </delete>
+
+    <delete id="deleteOximeterDataByOximeterIds" parameterType="String">
+        delete from oximeter_data where oximeter_id in 
+        <foreach item="oximeterId" collection="array" open="(" separator="," close=")">
+            #{oximeterId}
+        </foreach>
+    </delete>
+</mapper>

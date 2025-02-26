@@ -11,7 +11,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 患者资料对象 patient_info
  * 
  * @author 尹罗飞
- * @date 2025-02-25
+ * @date 2025-02-26
  */
 public class PatientInfo extends BaseEntity
 {
@@ -48,15 +48,11 @@ public class PatientInfo extends BaseEntity
 
     /** 过敏史 */
     @Excel(name = "过敏史")
-    private Integer historyOfSensitivity;
+    private String historyOfSensitivity;
 
     /** 疾病史 */
     @Excel(name = "疾病史")
     private String pastMedicalHistory;
-
-    /** 诊断地址 */
-    @Excel(name = "诊断地址")
-    private String treatmentLocation;
 
     public void setPatientId(Long patientId) 
     {
@@ -121,12 +117,12 @@ public class PatientInfo extends BaseEntity
     {
         return skinType;
     }
-    public void setHistoryOfSensitivity(Integer historyOfSensitivity) 
+    public void setHistoryOfSensitivity(String historyOfSensitivity) 
     {
         this.historyOfSensitivity = historyOfSensitivity;
     }
 
-    public Integer getHistoryOfSensitivity() 
+    public String getHistoryOfSensitivity() 
     {
         return historyOfSensitivity;
     }
@@ -138,15 +134,6 @@ public class PatientInfo extends BaseEntity
     public String getPastMedicalHistory() 
     {
         return pastMedicalHistory;
-    }
-    public void setTreatmentLocation(String treatmentLocation) 
-    {
-        this.treatmentLocation = treatmentLocation;
-    }
-
-    public String getTreatmentLocation() 
-    {
-        return treatmentLocation;
     }
 
     @Override
@@ -161,7 +148,6 @@ public class PatientInfo extends BaseEntity
             .append("skinType", getSkinType())
             .append("historyOfSensitivity", getHistoryOfSensitivity())
             .append("pastMedicalHistory", getPastMedicalHistory())
-            .append("treatmentLocation", getTreatmentLocation())
             .toString();
     }
 }

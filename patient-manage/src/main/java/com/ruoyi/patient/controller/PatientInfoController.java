@@ -25,7 +25,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * 患者资料Controller
  * 
  * @author 尹罗飞
- * @date 2025-02-25
+ * @date 2025-02-26
  */
 @RestController
 @RequestMapping("/patient/info")

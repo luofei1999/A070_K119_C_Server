@@ -14,7 +14,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="skinType"    column="skin_type"    />
         <result property="historyOfSensitivity"    column="history_of_sensitivity"    />
         <result property="pastMedicalHistory"    column="past_medical_history"    />
-        <result property="treatmentLocation"    column="treatment_location"    />
     </resultMap>
 
     <sql id="selectPatientInfoVo">
@@ -31,9 +30,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="date != null "> and date = #{date}</if>
             <if test="age != null "> and age = #{age}</if>
             <if test="skinType != null  and skinType != ''"> and skin_type = #{skinType}</if>
-            <if test="historyOfSensitivity != null "> and history_of_sensitivity = #{historyOfSensitivity}</if>
+            <if test="historyOfSensitivity != null  and historyOfSensitivity != ''"> and history_of_sensitivity = #{historyOfSensitivity}</if>
             <if test="pastMedicalHistory != null  and pastMedicalHistory != ''"> and past_medical_history = #{pastMedicalHistory}</if>
-            <if test="treatmentLocation != null  and treatmentLocation != ''"> and treatment_location = #{treatmentLocation}</if>
+
         </where>
     </select>
     
@@ -54,7 +53,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="skinType != null">skin_type,</if>
             <if test="historyOfSensitivity != null">history_of_sensitivity,</if>
             <if test="pastMedicalHistory != null">past_medical_history,</if>
-            <if test="treatmentLocation != null">treatment_location,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="patientId != null">#{patientId},</if>
@@ -66,7 +64,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="skinType != null">#{skinType},</if>
             <if test="historyOfSensitivity != null">#{historyOfSensitivity},</if>
             <if test="pastMedicalHistory != null">#{pastMedicalHistory},</if>
-            <if test="treatmentLocation != null">#{treatmentLocation},</if>
          </trim>
     </insert>
 
@@ -81,7 +78,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="skinType != null">skin_type = #{skinType},</if>
             <if test="historyOfSensitivity != null">history_of_sensitivity = #{historyOfSensitivity},</if>
             <if test="pastMedicalHistory != null">past_medical_history = #{pastMedicalHistory},</if>
-            <if test="treatmentLocation != null">treatment_location = #{treatmentLocation},</if>
         </trim>
         where patient_id = #{patientId}
     </update>

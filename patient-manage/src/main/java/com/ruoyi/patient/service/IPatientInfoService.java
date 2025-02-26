@@ -7,7 +7,7 @@ import com.ruoyi.patient.domain.PatientInfo;
  * 患者资料Service接口
  * 
  * @author 尹罗飞
- * @date 2025-02-25
+ * @date 2025-02-26
  */
 public interface IPatientInfoService 
 {
