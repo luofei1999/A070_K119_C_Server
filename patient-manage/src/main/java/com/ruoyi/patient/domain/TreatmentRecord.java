@@ -22,18 +22,18 @@ public class TreatmentRecord extends BaseEntity
     private Long id;
 
     /** 患者ID */
-    private Long patientId;
+    private Long uId;
 
     /** 患者名称 */
-    @Excel(name = "患者名称")
-    private String patientName;
+    @Excel(name = "用户名")
+    private String userName;
 
-    public String getPatientName() {
-        return patientName;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setPatientName(String patientName) {
-        this.patientName = patientName;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     /** 治疗方案 */
@@ -79,14 +79,14 @@ public class TreatmentRecord extends BaseEntity
     {
         return id;
     }
-    public void setPatientId(Long patientId) 
+    public void setuId(Long uId)
     {
-        this.patientId = patientId;
+        this.uId = uId;
     }
 
-    public Long getPatientId() 
+    public Long getuId()
     {
-        return patientId;
+        return uId;
     }
     public void setTreatmentPlan(String treatmentPlan) 
     {
@@ -165,7 +165,7 @@ public class TreatmentRecord extends BaseEntity
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("id", getId())
-            .append("patientId", getPatientId())
+            .append("patientId", getuId())
             .append("treatmentPlan", getTreatmentPlan())
             .append("treatmentDuration", getTreatmentDuration())
             .append("treatmentStartTime", getTreatmentStartTime())

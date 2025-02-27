@@ -19,11 +19,11 @@ public class OximeterData extends BaseEntity
     private Long oximeterId;
 
     /** 患者ID */
-    private Long patientId;
+    private Long uId;
 
     /** 患者 */
-    @Excel(name = "患者")
-    private String patientName;
+    @Excel(name = "用户名")
+    private String userName;
 
     /** 血氧饱和度 */
     @Excel(name = "血氧饱和度")
@@ -46,23 +46,23 @@ public class OximeterData extends BaseEntity
     {
         return oximeterId;
     }
-    public void setPatientId(Long patientId) 
+    public void setuId(Long uId)
     {
-        this.patientId = patientId;
+        this.uId = uId;
     }
 
-    public Long getPatientId() 
+    public Long getuId()
     {
-        return patientId;
+        return uId;
     }
-    public void setPatientName(String patientName) 
+    public void setUserName(String userName)
     {
-        this.patientName = patientName;
+        this.userName = userName;
     }
 
-    public String getPatientName() 
+    public String getUserName()
     {
-        return patientName;
+        return userName;
     }
     public void setSpo2(Long spo2) 
     {
@@ -96,8 +96,8 @@ public class OximeterData extends BaseEntity
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("oximeterId", getOximeterId())
-            .append("patientId", getPatientId())
-            .append("patientName", getPatientName())
+            .append("uId", getuId())
+            .append("userName", getUserName())
             .append("spo2", getSpo2())
             .append("pr", getPr())
             .append("pi", getPi())

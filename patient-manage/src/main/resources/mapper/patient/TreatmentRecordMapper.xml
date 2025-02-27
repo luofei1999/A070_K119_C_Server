@@ -6,8 +6,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <resultMap type="TreatmentRecord" id="TreatmentRecordResult">
         <result property="id"    column="id"    />
-        <result property="patientId"    column="patient_id"    />
-        <result property="patientName"    column="patient_name"    />
+        <result property="uId"    column="uid"    />
+        <result property="userName"    column="user_name"    />
         <result property="treatmentPlan"    column="treatment_plan"    />
         <result property="treatmentDuration"    column="treatment_duration"    />
         <result property="treatmentStartTime"    column="treatment_start_time"    />
@@ -19,14 +19,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectTreatmentRecordVo">
-        select id, patient_id, patient_name, treatment_plan, treatment_duration, treatment_start_time, treatment_end_time, treatment_energy, total_energy_output, treatment_device, treatment_location from treatment_record
+        select id, uid, user_name, treatment_plan, treatment_duration, treatment_start_time, treatment_end_time, treatment_energy, total_energy_output, treatment_device, treatment_location from treatment_record
     </sql>
 
     <select id="selectTreatmentRecordList" parameterType="TreatmentRecord" resultMap="TreatmentRecordResult">
         <include refid="selectTreatmentRecordVo"/>
         <where>  
-            <if test="patientId != null "> and patient_id = #{patientId}</if>
-            <if test="patientName != null "> and patient_name = #{patientName}</if>
+            <if test="uId != null "> and uid = #{uId}</if>
+            <if test="userName != null "> and user_name = #{userName}</if>
             <if test="treatmentPlan != null  and treatmentPlan != ''"> and treatment_plan = #{treatmentPlan}</if>
             <if test="treatmentDevice != null  and treatmentDevice != ''"> and treatment_device = #{treatmentDevice}</if>
 
@@ -41,8 +41,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertTreatmentRecord" parameterType="TreatmentRecord" useGeneratedKeys="true" keyProperty="id">
         insert into treatment_record
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="patientId != null">patient_id,</if>
-            <if test="patientName != null">patient_name,</if>
+            <if test="uId != null">uid,</if>
+            <if test="userName != null">user_name,</if>
             <if test="treatmentPlan != null">treatment_plan,</if>
             <if test="treatmentDuration != null">treatment_duration,</if>
             <if test="treatmentStartTime != null">treatment_start_time,</if>
@@ -53,8 +53,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="treatmentLocation != null">treatment_location,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="patientId != null">#{patientId},</if>
-            <if test="patientName != null">#{patientName},</if>
+            <if test="uId != null">#{uId},</if>
+            <if test="userName != null">#{userName},</if>
             <if test="treatmentPlan != null">#{treatmentPlan},</if>
             <if test="treatmentDuration != null">#{treatmentDuration},</if>
             <if test="treatmentStartTime != null">#{treatmentStartTime},</if>
@@ -69,8 +69,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateTreatmentRecord" parameterType="TreatmentRecord">
         update treatment_record
         <trim prefix="SET" suffixOverrides=",">
-            <if test="patientId != null">patient_id = #{patientId},</if>
-            <if test="patientName != null">patient_name = #{patientName},</if>
+            <if test="uId != null">uid = #{uId},</if>
+            <if test="userName != null">user_name = #{userName},</if>
             <if test="treatmentPlan != null">treatment_plan = #{treatmentPlan},</if>
             <if test="treatmentDuration != null">treatment_duration = #{treatmentDuration},</if>
             <if test="treatmentStartTime != null">treatment_start_time = #{treatmentStartTime},</if>

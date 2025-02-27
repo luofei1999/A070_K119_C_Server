@@ -6,8 +6,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <resultMap type="OximeterData" id="OximeterDataResult">
         <result property="oximeterId"    column="oximeter_id"    />
-        <result property="patientId"    column="patient_id"    />
-        <result property="patientName"    column="patient_name"    />
+        <result property="uId"    column="uid"    />
+        <result property="userName"    column="user_name"    />
         <result property="spo2"    column="spo2"    />
         <result property="pr"    column="pr"    />
         <result property="pi"    column="pi"    />
@@ -15,13 +15,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectOximeterDataVo">
-        select oximeter_id, patient_id, patient_name, spo2, pr, pi, create_time from oximeter_data
+        select oximeter_id, uid, user_name, spo2, pr, pi, create_time from oximeter_data
     </sql>
 
     <select id="selectOximeterDataList" parameterType="OximeterData" resultMap="OximeterDataResult">
         <include refid="selectOximeterDataVo"/>
         <where>  
-            <if test="patientId != null "> and patient_id = #{patientId}</if>
+            <if test="uId != null "> and uid = #{uId}</if>
             <if test="createTime != null "> and create_time like concat('%', #{createTime}, '%')</if>
         </where>
     </select>
@@ -35,8 +35,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into oximeter_data
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="oximeterId != null">oximeter_id,</if>
-            <if test="patientId != null">patient_id,</if>
-            <if test="patientName != null">patient_name,</if>
+            <if test="uId != null">uid,</if>
+            <if test="userName != null">user_name,</if>
             <if test="spo2 != null">spo2,</if>
             <if test="pr != null">pr,</if>
             <if test="pi != null">pi,</if>
@@ -44,8 +44,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="oximeterId != null">#{oximeterId},</if>
-            <if test="patientId != null">#{patientId},</if>
-            <if test="patientName != null">#{patientName},</if>
+            <if test="uId != null">#{uId},</if>
+            <if test="userName != null">#{userName},</if>
             <if test="spo2 != null">#{spo2},</if>
             <if test="pr != null">#{pr},</if>
             <if test="pi != null">#{pi},</if>
@@ -56,8 +56,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateOximeterData" parameterType="OximeterData">
         update oximeter_data
         <trim prefix="SET" suffixOverrides=",">
-            <if test="patientId != null">patient_id = #{patientId},</if>
-            <if test="patientName != null">patient_name = #{patientName},</if>
+            <if test="uId != null">uid = #{uId},</if>
+            <if test="userName != null">user_name = #{userName},</if>
             <if test="spo2 != null">spo2 = #{spo2},</if>
             <if test="pr != null">pr = #{pr},</if>
             <if test="pi != null">pi = #{pi},</if>
