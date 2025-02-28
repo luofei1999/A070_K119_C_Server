@@ -71,12 +71,17 @@ public class SysRegisterService
         }
         else if (!userService.checkUserNameUnique(sysUser))
         {
-            msg = "保存用户'" + username + "'失败，注册账号已存在";
+            msg = "注册用户'" + username + "'失败，注册账号已存在";
         }
         else
         {
             sysUser.setNickName(username);
             sysUser.setPassword(SecurityUtils.encryptPassword(password));
+            sysUser.setNickName(registerBody.getNickName());
+            sysUser.setPhonenumber(registerBody.getPhonenumber());
+            sysUser.setSex(registerBody.getSex());
+            sysUser.setAge(registerBody.getAge());
+
             boolean regFlag = userService.registerUser(sysUser);
             if (!regFlag)
             {
