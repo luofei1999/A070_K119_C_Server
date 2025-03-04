@@ -22,7 +22,7 @@ public class TreatmentRecord extends BaseEntity
     private Long id;
 
     /** 患者ID */
-    private Long uId;
+    private Long userId;
 
     /** 患者名称 */
     @Excel(name = "用户名")
@@ -79,14 +79,14 @@ public class TreatmentRecord extends BaseEntity
     {
         return id;
     }
-    public void setuId(Long uId)
+    public void setUserId(Long userId)
     {
-        this.uId = uId;
+        this.userId = userId;
     }
 
-    public Long getuId()
+    public Long getUserId()
     {
-        return uId;
+        return userId;
     }
     public void setTreatmentPlan(String treatmentPlan) 
     {
@@ -165,7 +165,7 @@ public class TreatmentRecord extends BaseEntity
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("id", getId())
-            .append("patientId", getuId())
+            .append("patientId", getUserId())
             .append("treatmentPlan", getTreatmentPlan())
             .append("treatmentDuration", getTreatmentDuration())
             .append("treatmentStartTime", getTreatmentStartTime())

@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <resultMap type="TreatmentRecord" id="TreatmentRecordResult">
         <result property="id"    column="id"    />
-        <result property="uId"    column="uid"    />
+        <result property="userId"    column="user_id"    />
         <result property="userName"    column="user_name"    />
         <result property="treatmentPlan"    column="treatment_plan"    />
         <result property="treatmentDuration"    column="treatment_duration"    />
@@ -19,17 +19,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectTreatmentRecordVo">
-        select id, uid, user_name, treatment_plan, treatment_duration, treatment_start_time, treatment_end_time, treatment_energy, total_energy_output, treatment_device, treatment_location from treatment_record
+        select t.id, t.user_id, t.user_name, t.treatment_plan, t.treatment_duration,
+               t.treatment_start_time, t.treatment_end_time, t.treatment_energy,
+               t.total_energy_output, t.treatment_device, t.treatment_location
+        from treatment_record t
+                 left join sys_user u on t.user_id = u.user_id
     </sql>
+
 
     <select id="selectTreatmentRecordList" parameterType="TreatmentRecord" resultMap="TreatmentRecordResult">
         <include refid="selectTreatmentRecordVo"/>
         <where>  
-            <if test="uId != null "> and uid = #{uId}</if>
+            <if test="userId != null "> and u.user_id = #{userId}</if>
             <if test="userName != null "> and user_name = #{userName}</if>
             <if test="treatmentPlan != null  and treatmentPlan != ''"> and treatment_plan = #{treatmentPlan}</if>
             <if test="treatmentDevice != null  and treatmentDevice != ''"> and treatment_device = #{treatmentDevice}</if>
-
+            <!-- 数据范围过滤 -->
+            ${params.dataScope}
         </where>
     </select>
     
@@ -41,7 +47,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertTreatmentRecord" parameterType="TreatmentRecord" useGeneratedKeys="true" keyProperty="id">
         insert into treatment_record
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="uId != null">uid,</if>
+            <if test="userId != null">user_id,</if>
             <if test="userName != null">user_name,</if>
             <if test="treatmentPlan != null">treatment_plan,</if>
             <if test="treatmentDuration != null">treatment_duration,</if>
@@ -53,7 +59,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="treatmentLocation != null">treatment_location,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="uId != null">#{uId},</if>
+            <if test="userId != null">#{userId},</if>
             <if test="userName != null">#{userName},</if>
             <if test="treatmentPlan != null">#{treatmentPlan},</if>
             <if test="treatmentDuration != null">#{treatmentDuration},</if>
@@ -69,7 +75,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateTreatmentRecord" parameterType="TreatmentRecord">
         update treatment_record
         <trim prefix="SET" suffixOverrides=",">
-            <if test="uId != null">uid = #{uId},</if>
+            <if test="userId != null">user_id = #{userId},</if>
             <if test="userName != null">user_name = #{userName},</if>
             <if test="treatmentPlan != null">treatment_plan = #{treatmentPlan},</if>
             <if test="treatmentDuration != null">treatment_duration = #{treatmentDuration},</if>

@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <resultMap type="OximeterData" id="OximeterDataResult">
         <result property="oximeterId"    column="oximeter_id"    />
-        <result property="uId"    column="uid"    />
+        <result property="userId"    column="user_id"    />
         <result property="userName"    column="user_name"    />
         <result property="spo2"    column="spo2"    />
         <result property="pr"    column="pr"    />
@@ -15,15 +15,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectOximeterDataVo">
-        select oximeter_id, uid, user_name, spo2, pr, pi, create_time from oximeter_data
+        select o.oximeter_id, o.user_id, o.user_name, o.spo2, o.pr, o.pi, o.create_time
+        from oximeter_data o
+                 left join sys_user u on o.user_id = u.user_id
     </sql>
+
 
     <select id="selectOximeterDataList" parameterType="OximeterData" resultMap="OximeterDataResult">
         <include refid="selectOximeterDataVo"/>
         <where>  
-            <if test="uId != null "> and uid = #{uId}</if>
+            <if test="userId != null "> and u.user_id = #{userId}</if>
             <if test="createTime != null "> and create_time like concat('%', #{createTime}, '%')</if>
+            <!-- 数据范围过滤 -->
+            ${params.dataScope}
         </where>
+
     </select>
     
     <select id="selectOximeterDataByOximeterId" parameterType="Long" resultMap="OximeterDataResult">
@@ -35,33 +41,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into oximeter_data
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="oximeterId != null">oximeter_id,</if>
-            <if test="uId != null">uid,</if>
+            <if test="userId != null">user_id,</if>
             <if test="userName != null">user_name,</if>
             <if test="spo2 != null">spo2,</if>
             <if test="pr != null">pr,</if>
             <if test="pi != null">pi,</if>
-            <if test="createTime != null">create_time,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="oximeterId != null">#{oximeterId},</if>
-            <if test="uId != null">#{uId},</if>
+            <if test="userId != null">#{userId},</if>
             <if test="userName != null">#{userName},</if>
             <if test="spo2 != null">#{spo2},</if>
             <if test="pr != null">#{pr},</if>
             <if test="pi != null">#{pi},</if>
-            <if test="createTime != null">#{createTime},</if>
          </trim>
     </insert>
 
     <update id="updateOximeterData" parameterType="OximeterData">
         update oximeter_data
         <trim prefix="SET" suffixOverrides=",">
-            <if test="uId != null">uid = #{uId},</if>
+            <if test="userId != null">user_id = #{userId},</if>
             <if test="userName != null">user_name = #{userName},</if>
             <if test="spo2 != null">spo2 = #{spo2},</if>
             <if test="pr != null">pr = #{pr},</if>
             <if test="pi != null">pi = #{pi},</if>
-            <if test="createTime != null">create_time = #{createTime},</if>
         </trim>
         where oximeter_id = #{oximeterId}
     </update>

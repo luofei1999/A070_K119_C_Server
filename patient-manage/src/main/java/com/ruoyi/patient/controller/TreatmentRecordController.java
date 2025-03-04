@@ -2,6 +2,8 @@ package com.ruoyi.patient.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.common.annotation.DataScope;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,6 +41,7 @@ public class TreatmentRecordController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('patient:treatment_record:list')")
     @GetMapping("/list")
+    @DataScope(userAlias = "u")
     public TableDataInfo list(TreatmentRecord treatmentRecord)
     {
         startPage();
