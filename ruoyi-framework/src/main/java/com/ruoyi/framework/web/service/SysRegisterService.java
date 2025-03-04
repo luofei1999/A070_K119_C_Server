@@ -1,5 +1,6 @@
 package com.ruoyi.framework.web.service;
 
+import com.ruoyi.system.service.impl.SysRoleServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.ruoyi.common.constant.CacheConstants;
@@ -34,6 +35,9 @@ public class SysRegisterService
 
     @Autowired
     private RedisCache redisCache;
+
+    @Autowired
+    private SysRoleServiceImpl roleService;
 
     /**
      * 注册
@@ -91,6 +95,10 @@ public class SysRegisterService
             {
                 AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.REGISTER, MessageUtils.message("user.register.success")));
             }
+        }
+        // 注册成功，默认插入普通角色
+        if (StringUtils.isEmpty(msg)) {
+            roleService.insertDefaultRole(sysUser.getUserId());
         }
         return msg;
     }

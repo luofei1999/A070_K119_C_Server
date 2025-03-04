@@ -59,4 +59,11 @@ public interface SysUserRoleMapper
      * @return 结果
      */
     public int deleteUserRoleInfos(@Param("roleId") Long roleId, @Param("userIds") Long[] userIds);
+
+    /**
+     * 插入默认角色
+     * @param userId
+     * @return
+     */
+    public int insertDefaultRole(Long userId);
 }
