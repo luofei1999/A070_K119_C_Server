@@ -4,14 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.common.core.controller.BaseController;
+import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.utils.SecurityUtils;
+import com.ruoyi.framework.web.service.TokenService;
+import com.ruoyi.patient.domain.TreatmentImages;
+import com.ruoyi.patient.service.ITreatmentImagesService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import com.ruoyi.common.config.RuoYiConfig;
 import com.ruoyi.common.constant.Constants;
@@ -28,7 +32,7 @@ import com.ruoyi.framework.config.ServerConfig;
  */
 @RestController
 @RequestMapping("/common")
-public class CommonController
+public class CommonController extends BaseController
 {
     private static final Logger log = LoggerFactory.getLogger(CommonController.class);
 
@@ -36,6 +40,9 @@ public class CommonController
     private ServerConfig serverConfig;
 
     private static final String FILE_DELIMETER = ",";
+
+    @Autowired
+    private ITreatmentImagesService treatmentImagesService; // 自动注入
 
     /**
      * 通用下载请求
@@ -87,6 +94,51 @@ public class CommonController
             ajax.put("fileName", fileName);
             ajax.put("newFileName", FileUtils.getName(fileName));
             ajax.put("originalFilename", file.getOriginalFilename());
+            return ajax;
+        }
+        catch (Exception e)
+        {
+            return AjaxResult.error(e.getMessage());
+        }
+    }
+
+    /**
+     * 单张治疗图片上传
+     */
+    @PostMapping("/uploadImage")
+    public AjaxResult uploadFileImg(@RequestParam("treatmentId") String treatmentId, @RequestParam("file") MultipartFile file, @RequestParam("isTreatmentAfter") String isTreatmentAfter) {
+        try
+        {
+            // 上传文件路径
+            String filePath = RuoYiConfig.getUploadImagePath();
+            // 上传并返回新文件名称
+            String fileName = FileUploadUtils.upload(filePath, file, treatmentId);
+            String url = serverConfig.getUrl() + fileName;
+
+            String newName = FileUtils.getName(fileName);
+
+            // 构造治疗图片实体对象
+            TreatmentImages treatmentImages = new TreatmentImages();
+            treatmentImages.setTreatmentId(Long.parseLong(treatmentId)); // 注意类型转换
+            treatmentImages.setUserId(SecurityUtils.getUserId());
+            treatmentImages.setUserName(SecurityUtils.getUsername());
+            treatmentImages.setName(newName); // 保存文件名
+            treatmentImages.setPath(fileName);    // 保存文件存储路径
+            treatmentImages.setUrl(url);     // 保存访问地址
+            treatmentImages.setIsTreatmentAfter(isTreatmentAfter);     // 图片标识
+            // 调用服务层插入图片数据
+            treatmentImagesService.insertTreatmentImages(treatmentImages);
+
+            AjaxResult ajax = AjaxResult.success();
+            ajax.put("url", url);
+            ajax.put("fileName", fileName);
+            ajax.put("newFileName", newName);
+            ajax.put("originalFilename", file.getOriginalFilename());
+            ajax.put("treatment_id", treatmentId);
+
+            // 获取当前的用户名称
+            ajax.put("user_id", SecurityUtils.getUserId());
+            ajax.put("user_name", SecurityUtils.getUsername());
             return ajax;
         }
         catch (Exception e)

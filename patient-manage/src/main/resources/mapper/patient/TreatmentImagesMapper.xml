@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.patient.mapper.TreatmentImagesMapper">
+    
+    <resultMap type="TreatmentImages" id="TreatmentImagesResult">
+        <result property="id"    column="id"    />
+        <result property="treatmentId"    column="treatment_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="name"    column="name"    />
+        <result property="path"    column="path"    />
+        <result property="url"    column="url"    />
+        <result property="isTreatmentAfter"    column="is_treatment_after"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectTreatmentImagesVo">
+        select t.id, t.treatment_id, t.user_id, u.user_name, t.name, t.path, t.url,t.is_treatment_after, t.create_time
+        from treatment_images t
+                 left join sys_user u on t.user_id = u.user_id
+    </sql>
+
+    <select id="selectTreatmentImagesList" parameterType="TreatmentImages" resultMap="TreatmentImagesResult">
+        <include refid="selectTreatmentImagesVo"/>
+        <where>  
+            <if test="treatmentId != null "> and treatment_id = #{treatmentId}</if>
+            <if test="userId != null "> and u.user_id = #{userId}</if>
+            <if test="userName != null "> and user_name = #{userName}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="path != null  and path != ''"> and path = #{path}</if>
+            <if test="url != null  and url != ''"> and url = #{url}</if>
+            <if test="isTreatmentAfter != null  and url != ''"> and is_treatment_after = #{isTreatmentAfter}</if>
+            <!-- 数据范围过滤 -->
+            ${params.dataScope}
+        </where>
+    </select>
+    
+    <select id="selectTreatmentImagesById" parameterType="Long" resultMap="TreatmentImagesResult">
+        <include refid="selectTreatmentImagesVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertTreatmentImages" parameterType="TreatmentImages" useGeneratedKeys="true" keyProperty="id">
+        insert into treatment_images
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="treatmentId != null">treatment_id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="path != null and path != ''">path,</if>
+            <if test="url != null">url,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="isTreatmentAfter != null">is_treatment_after,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="treatmentId != null">#{treatmentId},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="path != null and path != ''">#{path},</if>
+            <if test="url != null">#{url},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="isTreatmentAfter != null">#{isTreatmentAfter},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTreatmentImages" parameterType="TreatmentImages">
+        update treatment_images
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="treatmentId != null">treatment_id = #{treatmentId},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="path != null and path != ''">path = #{path},</if>
+            <if test="url != null">url = #{url},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="isTreatmentAfter != null">#{isTreatmentAfter},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTreatmentImagesById" parameterType="Long">
+        delete from treatment_images where id = #{id}
+    </delete>
+
+    <delete id="deleteTreatmentImagesByIds" parameterType="String">
+        delete from treatment_images where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

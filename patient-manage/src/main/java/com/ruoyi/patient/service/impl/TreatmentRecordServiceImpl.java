@@ -90,4 +90,11 @@ public class TreatmentRecordServiceImpl implements ITreatmentRecordService
     {
         return treatmentRecordMapper.deleteTreatmentRecordById(id);
     }
+
+    @Override
+    public TreatmentRecord selectTreatmentRecordWithImages(Long id) {
+        return treatmentRecordMapper.selectTreatmentRecordWithImages(id);
+    }
+
+
 }

@@ -99,4 +99,44 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
+
+    <select id="selectTreatmentRecordWithImages" parameterType="Long" resultMap="TreatmentRecordWithImagesResult">
+        SELECT
+            tr.id, tr.user_id, tr.user_name, tr.treatment_plan, tr.treatment_duration,
+            tr.treatment_start_time, tr.treatment_end_time, tr.treatment_energy,
+            tr.total_energy_output, tr.treatment_device, tr.treatment_location, ti.create_time,
+            ti.id as image_id, ti.treatment_id, ti.name as image_name, ti.path, ti.url
+        FROM treatment_record tr
+                 LEFT JOIN treatment_images ti ON tr.id = ti.treatment_id
+        WHERE tr.id = #{id}
+    </select>
+
+    <resultMap id="TreatmentRecordWithImagesResult" type="com.ruoyi.patient.domain.TreatmentRecord">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="treatmentPlan" column="treatment_plan"/>
+        <result property="treatmentDuration" column="treatment_duration"/>
+        <result property="treatmentStartTime" column="treatment_start_time"/>
+        <result property="treatmentEndTime" column="treatment_end_time"/>
+        <result property="treatmentEnergy" column="treatment_energy"/>
+        <result property="totalEnergyOutput" column="total_energy_output"/>
+        <result property="treatmentDevice" column="treatment_device"/>
+        <result property="treatmentLocation" column="treatment_location"/>
+        <result property="createTime" column="create_time"/>
+
+        <collection property="treatmentImages" ofType="com.ruoyi.patient.domain.TreatmentImages">
+            <id property="id" column="image_id"/>
+            <result property="treatmentId" column="treatment_id"/>
+            <result property="userId" column="user_id"/>
+            <result property="userName" column="user_name"/>
+            <result property="name" column="image_name"/>
+            <result property="path" column="path"/>
+            <result property="url" column="url"/>
+            <result property="createTime" column="create_time"/>
+        </collection>
+    </resultMap>
+
+
 </mapper>

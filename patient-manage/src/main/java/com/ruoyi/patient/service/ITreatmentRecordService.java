@@ -58,4 +58,8 @@ public interface ITreatmentRecordService
      * @return 结果
      */
     public int deleteTreatmentRecordById(Long id);
+
+    TreatmentRecord selectTreatmentRecordWithImages(Long id);
+
+
 }

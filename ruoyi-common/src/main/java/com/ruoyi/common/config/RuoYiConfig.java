@@ -1,5 +1,6 @@
 package com.ruoyi.common.config;
 
+import com.ruoyi.common.utils.SecurityUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -118,5 +119,14 @@ public class RuoYiConfig
     public static String getUploadPath()
     {
         return getProfile() + "/upload";
+    }
+
+    /**
+     * 获取上传图片路径
+     */
+    public static String getUploadImagePath()
+    {
+        String userPath = String.format("%s_%s",SecurityUtils.getUsername(), SecurityUtils.getUserId());
+        return getProfile() + "/treatmentImage/"+userPath;
     }
 }

@@ -49,6 +49,23 @@ public class TreatmentRecordController extends BaseController
         return getDataTable(list);
     }
 
+    @PreAuthorize("@ss.hasPermi('patient:treatment_record:list')")
+    @GetMapping("/recordDetail")
+    @DataScope(userAlias = "u")
+    public TableDataInfo detail(TreatmentRecord treatmentRecord)
+    {
+        startPage();
+        List<TreatmentRecord> list = treatmentRecordService.selectTreatmentRecordList(treatmentRecord);
+        return getDataTable(list);
+    }
+
+    @PreAuthorize("@ss.hasPermi('patient:treatment_record:query')")
+    @GetMapping(value = "/detail/{id}")
+    public AjaxResult getRecordDetail(@PathVariable("id") Long id) {
+        return success(treatmentRecordService.selectTreatmentRecordWithImages(id));
+    }
+
+
     /**
      * 导出治疗记录列表
      */

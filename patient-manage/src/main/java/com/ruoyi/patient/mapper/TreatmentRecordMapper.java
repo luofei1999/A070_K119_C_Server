@@ -58,4 +58,11 @@ public interface TreatmentRecordMapper
      * @return 结果
      */
     public int deleteTreatmentRecordByIds(Long[] ids);
+
+    /**
+     * 查询治疗记录详情，包含图片信息
+     * @param id 治疗记录主键
+     * @return 治疗记录详情
+     */
+    TreatmentRecord selectTreatmentRecordWithImages(Long id);  // <-- 添加这个方法
 }
