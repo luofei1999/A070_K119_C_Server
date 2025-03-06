@@ -1,6 +1,8 @@
 package com.ruoyi.patient.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.common.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.patient.mapper.TreatmentRecordMapper;
@@ -50,9 +52,14 @@ public class TreatmentRecordServiceImpl implements ITreatmentRecordService
      * @return 结果
      */
     @Override
-    public int insertTreatmentRecord(TreatmentRecord treatmentRecord)
+    public long insertTreatmentRecord(TreatmentRecord treatmentRecord)
     {
-        return treatmentRecordMapper.insertTreatmentRecord(treatmentRecord);
+        // 使用当前登录用户 ID
+        if (treatmentRecord.getUserId() == 0) {
+            treatmentRecord.setUserId(SecurityUtils.getUserId());
+        }
+        int result = treatmentRecordMapper.insertTreatmentRecord(treatmentRecord);
+        return result > 0 ? treatmentRecord.getId() : result;
     }
 
     /**

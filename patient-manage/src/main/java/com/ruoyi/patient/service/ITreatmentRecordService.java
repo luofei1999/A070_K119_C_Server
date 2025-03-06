@@ -33,7 +33,7 @@ public interface ITreatmentRecordService
      * @param treatmentRecord 治疗记录
      * @return 结果
      */
-    public int insertTreatmentRecord(TreatmentRecord treatmentRecord);
+    public long insertTreatmentRecord(TreatmentRecord treatmentRecord);
 
     /**
      * 修改治疗记录
