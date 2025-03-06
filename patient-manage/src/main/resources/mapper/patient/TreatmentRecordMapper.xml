@@ -106,7 +106,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             tr.id, tr.user_id, tr.user_name, tr.treatment_plan, tr.treatment_duration,
             tr.treatment_start_time, tr.treatment_end_time, tr.treatment_energy,
             tr.total_energy_output, tr.treatment_device, tr.treatment_location, ti.create_time,
-            ti.id as image_id, ti.treatment_id, ti.name as image_name, ti.path, ti.url
+            ti.id as image_id, ti.treatment_id, ti.name as image_name, ti.path, ti.url, ti.is_treatment_after
         FROM treatment_record tr
                  LEFT JOIN treatment_images ti ON tr.id = ti.treatment_id
         WHERE tr.id = #{id}
@@ -135,6 +135,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <result property="path" column="path"/>
             <result property="url" column="url"/>
             <result property="createTime" column="create_time"/>
+            <result property="isTreatmentAfter" column="is_treatment_after"/>
         </collection>
     </resultMap>
 
