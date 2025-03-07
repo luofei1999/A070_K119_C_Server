@@ -1,6 +1,7 @@
 package com.ruoyi.patient.domain;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -72,7 +73,7 @@ public class TreatmentRecord extends BaseEntity
     @Excel(name = "治疗地址")
     private String treatmentLocation;
 
-    private List<TreatmentImages> treatmentImages;
+    private List<TreatmentImages> treatmentImages = new ArrayList<>();
 
     public List<TreatmentImages> getTreatmentImages() {
         return treatmentImages;

@@ -37,6 +37,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <!-- 数据范围过滤 -->
             ${params.dataScope}
         </where>
+        ORDER BY t.treatment_end_time DESC
     </select>
     
     <select id="selectTreatmentRecordById" parameterType="Long" resultMap="TreatmentRecordResult">
@@ -126,7 +127,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="treatmentLocation" column="treatment_location"/>
         <result property="createTime" column="create_time"/>
 
-        <collection property="treatmentImages" ofType="com.ruoyi.patient.domain.TreatmentImages">
+        <collection property="treatmentImages" ofType="com.ruoyi.patient.domain.TreatmentImages"
+                    notNullColumn="image_id">
             <id property="id" column="image_id"/>
             <result property="treatmentId" column="treatment_id"/>
             <result property="userId" column="user_id"/>
