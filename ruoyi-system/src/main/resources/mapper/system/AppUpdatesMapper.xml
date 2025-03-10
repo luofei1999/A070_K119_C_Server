@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.AppUpdatesMapper">
+    
+    <resultMap type="AppUpdates" id="AppUpdatesResult">
+        <result property="id"    column="id"    />
+        <result property="appName"    column="app_name"    />
+        <result property="versionCode"    column="version_code"    />
+        <result property="versionName"    column="version_name"    />
+        <result property="updateType"    column="update_type"    />
+        <result property="updateDesc"    column="update_desc"    />
+        <result property="apkUrl"    column="apk_url"    />
+        <result property="apkSize"    column="apk_size"    />
+        <result property="md5"    column="md5"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectAppUpdatesVo">
+        select id, app_name, version_code, version_name, update_type, update_desc, apk_url, apk_size, md5, create_time from app_updates
+    </sql>
+
+    <select id="selectAppUpdatesList" parameterType="AppUpdates" resultMap="AppUpdatesResult">
+        <include refid="selectAppUpdatesVo"/>
+        <where>  
+            <if test="appName != null  and appName != ''"> and app_name like concat('%', #{appName}, '%')</if>
+            <if test="versionCode != null "> and version_code = #{versionCode}</if>
+            <if test="versionName != null  and versionName != ''"> and version_name like concat('%', #{versionName}, '%')</if>
+            <if test="updateType != null "> and update_type = #{updateType}</if>
+            <if test="updateDesc != null  and updateDesc != ''"> and update_desc = #{updateDesc}</if>
+            <if test="apkUrl != null  and apkUrl != ''"> and apk_url = #{apkUrl}</if>
+            <if test="apkSize != null "> and apk_size = #{apkSize}</if>
+            <if test="md5 != null  and md5 != ''"> and md5 = #{md5}</if>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="selectAppLatestUpdate" parameterType="AppUpdates" resultMap="AppUpdatesResult">
+        <include refid="selectAppUpdatesVo"/>
+        ORDER BY create_time DESC
+        LIMIT 1
+    </select>
+
+
+
+    <select id="selectAppUpdatesById" parameterType="Long" resultMap="AppUpdatesResult">
+        <include refid="selectAppUpdatesVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertAppUpdates" parameterType="AppUpdates" useGeneratedKeys="true" keyProperty="id">
+        insert into app_updates
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="appName != null and appName != ''">app_name,</if>
+            <if test="versionCode != null">version_code,</if>
+            <if test="versionName != null and versionName != ''">version_name,</if>
+            <if test="updateType != null">update_type,</if>
+            <if test="updateDesc != null">update_desc,</if>
+            <if test="apkUrl != null and apkUrl != ''">apk_url,</if>
+            <if test="apkSize != null">apk_size,</if>
+            <if test="md5 != null and md5 != ''">md5,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="appName != null and appName != ''">#{appName},</if>
+            <if test="versionCode != null">#{versionCode},</if>
+            <if test="versionName != null and versionName != ''">#{versionName},</if>
+            <if test="updateType != null">#{updateType},</if>
+            <if test="updateDesc != null">#{updateDesc},</if>
+            <if test="apkUrl != null and apkUrl != ''">#{apkUrl},</if>
+            <if test="apkSize != null">#{apkSize},</if>
+            <if test="md5 != null and md5 != ''">#{md5},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAppUpdates" parameterType="AppUpdates">
+        update app_updates
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="appName != null and appName != ''">app_name = #{appName},</if>
+            <if test="versionCode != null">version_code = #{versionCode},</if>
+            <if test="versionName != null and versionName != ''">version_name = #{versionName},</if>
+            <if test="updateType != null">update_type = #{updateType},</if>
+            <if test="updateDesc != null">update_desc = #{updateDesc},</if>
+            <if test="apkUrl != null and apkUrl != ''">apk_url = #{apkUrl},</if>
+            <if test="apkSize != null">apk_size = #{apkSize},</if>
+            <if test="md5 != null and md5 != ''">md5 = #{md5},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAppUpdatesById" parameterType="Long">
+        delete from app_updates where id = #{id}
+    </delete>
+
+    <delete id="deleteAppUpdatesByIds" parameterType="String">
+        delete from app_updates where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
