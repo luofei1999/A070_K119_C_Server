@@ -25,6 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectOximeterDataVo"/>
         <where>  
             <if test="userId != null "> and u.user_id = #{userId}</if>
+            <if test="userName != null and userName != ''"> and o.user_name LIKE CONCAT('%', #{userName}, '%')</if>
             <if test="createTime != null "> and create_time like concat('%', #{createTime}, '%')</if>
             <!-- 数据范围过滤 -->
             ${params.dataScope}
