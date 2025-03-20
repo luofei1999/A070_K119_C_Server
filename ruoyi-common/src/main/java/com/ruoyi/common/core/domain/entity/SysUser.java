@@ -95,15 +95,6 @@ public class SysUser extends BaseEntity
     /** 角色ID */
     private Long roleId;
 
-    @Excel(name = "皮肤类型", readConverterExp = "0=干性,1=油性,2=过敏性")
-    private String skinType;
-
-    @Excel(name = "过敏史")
-    private String historyOfSensitivity;
-
-    @Excel(name = "疾病史")
-    private String pastMedicalHistory;
-
     public String getAge() {
         return age;
     }
@@ -118,30 +109,6 @@ public class SysUser extends BaseEntity
 
     public void setBirthDay(String birthDay) {
         this.birthDay = birthDay;
-    }
-
-    public String getSkinType() {
-        return skinType;
-    }
-
-    public void setSkinType(String skinType) {
-        this.skinType = skinType;
-    }
-
-    public String getHistoryOfSensitivity() {
-        return historyOfSensitivity;
-    }
-
-    public void setHistoryOfSensitivity(String historyOfSensitivity) {
-        this.historyOfSensitivity = historyOfSensitivity;
-    }
-
-    public String getPastMedicalHistory() {
-        return pastMedicalHistory;
-    }
-
-    public void setPastMedicalHistory(String pastMedicalHistory) {
-        this.pastMedicalHistory = pastMedicalHistory;
     }
 
     public SysUser()
