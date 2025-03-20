@@ -61,6 +61,12 @@
             <version>3.8.9</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>devices-manage</artifactId>
+            <version>3.8.9</version>
+        </dependency>
+
         <!-- 代码生成-->
         <dependency>
             <groupId>com.ruoyi</groupId>
