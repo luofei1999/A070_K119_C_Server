@@ -11,10 +11,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="userName"    column="user_name"    />
         <result property="communicationTime"    column="communication_time"    />
         <result property="simCardNumber"    column="sim_card_number"    />
+        <result property="remark"    column="remark"    />
     </resultMap>
 
     <sql id="selectDeviceInfoVo">
-        select id, device_number, status, user_name, communication_time, sim_card_number from device_info
+        select id, device_number, status, user_name, communication_time, sim_card_number, remark from device_info
     </sql>
 
     <select id="selectDeviceInfoList" parameterType="DeviceInfo" resultMap="DeviceInfoResult">
@@ -40,6 +41,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="userName != null">user_name,</if>
             <if test="communicationTime != null">communication_time,</if>
             <if test="simCardNumber != null">sim_card_number,</if>
+            <if test="remark != null">remark,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="deviceNumber != null and deviceNumber != ''">#{deviceNumber},</if>
@@ -47,6 +49,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="userName != null">#{userName},</if>
             <if test="communicationTime != null">#{communicationTime},</if>
             <if test="simCardNumber != null">#{simCardNumber},</if>
+            <if test="remark != null">#{remark},</if>
          </trim>
     </insert>
 
@@ -58,6 +61,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="userName != null">user_name = #{userName},</if>
             <if test="communicationTime != null">communication_time = #{communicationTime},</if>
             <if test="simCardNumber != null">sim_card_number = #{simCardNumber},</if>
+            <if test="remark != null">remark = #{remark},</if>
         </trim>
         where id = #{id}
     </update>

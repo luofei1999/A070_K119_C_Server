@@ -62,16 +62,16 @@ public class SysDevicesGroup extends BaseEntity
         this.parentName = parentName;
     }
 
-    public List<SysDept> getChildren() {
+    public List<SysDevicesGroup> getChildren() {
         return children;
     }
 
-    public void setChildren(List<SysDept> children) {
+    public void setChildren(List<SysDevicesGroup> children) {
         this.children = children;
     }
 
     /** 子部门 */
-    private List<SysDept> children = new ArrayList<SysDept>();
+    private List<SysDevicesGroup> children = new ArrayList<SysDevicesGroup>();
 
     public void setGroupId(Long groupId) 
     {

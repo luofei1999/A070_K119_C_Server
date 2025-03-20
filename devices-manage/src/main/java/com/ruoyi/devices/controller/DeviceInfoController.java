@@ -2,6 +2,10 @@ package com.ruoyi.devices.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.common.core.domain.entity.SysDept;
+import com.ruoyi.system.domain.SysDevicesGroup;
+import com.ruoyi.system.service.ISysDevicesGroupService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +37,8 @@ public class DeviceInfoController extends BaseController
 {
     @Autowired
     private IDeviceInfoService deviceInfoService;
+    @Autowired
+    private ISysDevicesGroupService sysDevicesGroupService;
 
     /**
      * 查询设备信息列表
@@ -100,5 +106,15 @@ public class DeviceInfoController extends BaseController
     public AjaxResult remove(@PathVariable Long[] ids)
     {
         return toAjax(deviceInfoService.deleteDeviceInfoByIds(ids));
+    }
+
+    /**
+     * 获取设备分组树列表
+     */
+    @PreAuthorize("@ss.hasPermi('system:user:list')")
+    @GetMapping("/devicesGroupTree")
+    public AjaxResult groupTree(SysDevicesGroup group)
+    {
+        return success(sysDevicesGroupService.selectSysDevicesGroupTreeList(group));
     }
 }
