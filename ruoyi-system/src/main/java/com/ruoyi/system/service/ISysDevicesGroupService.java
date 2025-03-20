@@ -2,10 +2,8 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 
-import com.ruoyi.common.core.domain.TreeSelect;
-import com.ruoyi.common.core.domain.entity.SysDept;
 import com.ruoyi.system.domain.SysDevicesGroup;
-import com.ruoyi.system.service.impl.DevicesGroupTreeSelect;
+import com.ruoyi.system.comm.DevicesGroupTreeSelect;
 
 /**
  * 设备分组Service接口
@@ -68,16 +66,16 @@ public interface ISysDevicesGroupService
     /**
      * 构建前端所需要下拉树结构
      *
-     * @param depts 部门列表
+     * @param groups 分组列表
      * @return 下拉树结构列表
      */
-    public List<DevicesGroupTreeSelect> buildDeptTreeSelect(List<SysDevicesGroup> depts);
+    public List<DevicesGroupTreeSelect> buildDevicesGroupTreeSelect(List<SysDevicesGroup> groups);
 
     /**
      * 构建前端所需要树结构
      *
-     * @param depts 部门列表
+     * @param groups 分组列表
      * @return 树结构列表
      */
-    public List<SysDevicesGroup> buildDeptTree(List<SysDevicesGroup> depts);
+    public List<SysDevicesGroup> buildDevicesGroupTree(List<SysDevicesGroup> groups);
 }

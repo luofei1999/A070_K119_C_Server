@@ -1,4 +1,4 @@
-package com.ruoyi.system.service.impl;
+package com.ruoyi.system.comm;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ruoyi.common.constant.UserConstants;

@@ -1,15 +1,13 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.ruoyi.common.core.domain.TreeSelect;
-import com.ruoyi.common.core.domain.entity.SysDept;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.spring.SpringUtils;
+import com.ruoyi.system.comm.DevicesGroupTreeSelect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.SysDevicesGroupMapper;
@@ -49,6 +47,7 @@ public class SysDevicesGroupServiceImpl implements ISysDevicesGroupService
     @Override
     public List<SysDevicesGroup> selectSysDevicesGroupList(SysDevicesGroup sysDevicesGroup)
     {
+        System.out.println(".....................");
         return sysDevicesGroupMapper.selectSysDevicesGroupList(sysDevicesGroup);
     }
 
@@ -111,8 +110,8 @@ public class SysDevicesGroupServiceImpl implements ISysDevicesGroupService
     @Override
     public List<DevicesGroupTreeSelect> selectSysDevicesGroupTreeList(SysDevicesGroup group)
     {
-        List<SysDevicesGroup> list = SpringUtils.getAopProxy(this).selectSysDevicesGroupList(group);
-        return buildDeptTreeSelect(list);
+        List<SysDevicesGroup> list = selectSysDevicesGroupList(group);
+        return buildDevicesGroupTreeSelect(list);
     }
     /**
      * 构建前端所需要下拉树结构
@@ -121,35 +120,35 @@ public class SysDevicesGroupServiceImpl implements ISysDevicesGroupService
      * @return 下拉树结构列表
      */
     @Override
-    public List<DevicesGroupTreeSelect> buildDeptTreeSelect(List<SysDevicesGroup> groupList)
+    public List<DevicesGroupTreeSelect> buildDevicesGroupTreeSelect(List<SysDevicesGroup> groupList)
     {
-        List<SysDevicesGroup> deptTrees = buildDeptTree(groupList);
+        List<SysDevicesGroup> deptTrees = buildDevicesGroupTree(groupList);
         return deptTrees.stream().map(DevicesGroupTreeSelect::new).collect(Collectors.toList());
     }
 
     /**
      * 构建前端所需要树结构
      *
-     * @param depts 部门列表
+     * @param groupList 分级列表
      * @return 树结构列表
      */
     @Override
-    public List<SysDevicesGroup> buildDeptTree(List<SysDevicesGroup> depts)
+    public List<SysDevicesGroup> buildDevicesGroupTree(List<SysDevicesGroup> groupList)
     {
         List<SysDevicesGroup> returnList = new ArrayList<SysDevicesGroup>();
-        List<Long> tempList = depts.stream().map(SysDevicesGroup::getGroupId).collect(Collectors.toList());
-        for (SysDevicesGroup dept : depts)
+        List<Long> tempList = groupList.stream().map(SysDevicesGroup::getGroupId).collect(Collectors.toList());
+        for (SysDevicesGroup group : groupList)
         {
             // 如果是顶级节点, 遍历该父节点的所有子节点
-            if (!tempList.contains(dept.getParentId()))
+            if (!tempList.contains(group.getParentId()))
             {
-                recursionFn(depts, dept);
-                returnList.add(dept);
+                recursionFn(groupList, group);
+                returnList.add(group);
             }
         }
         if (returnList.isEmpty())
         {
-            returnList = depts;
+            returnList = groupList;
         }
         return returnList;
     }
@@ -170,12 +169,8 @@ public class SysDevicesGroupServiceImpl implements ISysDevicesGroupService
     private List<SysDevicesGroup> getChildList(List<SysDevicesGroup> list, SysDevicesGroup t)
     {
         List<SysDevicesGroup> tlist = new ArrayList<SysDevicesGroup>();
-        Iterator<SysDevicesGroup> it = list.iterator();
-        while (it.hasNext())
-        {
-            SysDevicesGroup n = (SysDevicesGroup) it.next();
-            if (StringUtils.isNotNull(n.getParentId()) && n.getParentId().longValue() == t.getGroupId().longValue())
-            {
+        for (SysDevicesGroup n : list) {
+            if (StringUtils.isNotNull(n.getParentId()) && n.getParentId().longValue() == t.getGroupId().longValue()) {
                 tlist.add(n);
             }
         }
@@ -186,6 +181,6 @@ public class SysDevicesGroupServiceImpl implements ISysDevicesGroupService
      */
     private boolean hasChild(List<SysDevicesGroup> list, SysDevicesGroup t)
     {
-        return getChildList(list, t).size() > 0;
+        return !getChildList(list, t).isEmpty();
     }
 }

@@ -19,6 +19,15 @@ public class DeviceInfo extends BaseEntity
 
     /** $column.columnComment */
     private Long id;
+    private Long groupId;
+
+    public Long getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Long groupId) {
+        this.groupId = groupId;
+    }
 
     /** 编号 */
     @Excel(name = "编号")
