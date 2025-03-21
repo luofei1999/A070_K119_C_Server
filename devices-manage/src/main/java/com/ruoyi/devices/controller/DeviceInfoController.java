@@ -111,7 +111,7 @@ public class DeviceInfoController extends BaseController
     /**
      * 获取设备分组树列表
      */
-    @PreAuthorize("@ss.hasPermi('system:user:list')")
+    @PreAuthorize("@ss.hasPermi('system:devices_group:list')")
     @GetMapping("/devicesGroupTree")
     public AjaxResult groupTree(SysDevicesGroup group)
     {

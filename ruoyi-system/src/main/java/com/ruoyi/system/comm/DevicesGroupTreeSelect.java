@@ -25,6 +25,17 @@ public class DevicesGroupTreeSelect implements Serializable
     /** 节点名称 */
     private String label;
 
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    /** 备注 */
+    private String remark;
+
     /** 节点禁用 */
     private boolean disabled = false;
 
@@ -37,19 +48,13 @@ public class DevicesGroupTreeSelect implements Serializable
 
     }
 
-    public DevicesGroupTreeSelect(SysDevicesGroup dept)
+    public DevicesGroupTreeSelect(SysDevicesGroup group)
     {
-        this.id = dept.getGroupId();
-        this.label = dept.getGroupName();
-        this.disabled = StringUtils.equals(UserConstants.DEPT_DISABLE, dept.getStatus());
-        this.children = dept.getChildren().stream().map(DevicesGroupTreeSelect::new).collect(Collectors.toList());
-    }
-
-    public DevicesGroupTreeSelect(SysMenu menu)
-    {
-        this.id = menu.getMenuId();
-        this.label = menu.getMenuName();
-        this.children = menu.getChildren().stream().map(DevicesGroupTreeSelect::new).collect(Collectors.toList());
+        this.id = group.getGroupId();
+        this.label = group.getGroupName();
+        this.remark = group.getRemark();
+        this.disabled = StringUtils.equals(UserConstants.DEPT_DISABLE, group.getStatus());
+        this.children = group.getChildren().stream().map(DevicesGroupTreeSelect::new).collect(Collectors.toList());
     }
 
     public Long getId()

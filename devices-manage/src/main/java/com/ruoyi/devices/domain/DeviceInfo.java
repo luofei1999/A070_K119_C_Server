@@ -42,13 +42,111 @@ public class DeviceInfo extends BaseEntity
     private String userName;
 
     /** 通信时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "通信时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @Excel(name = "通信时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm")
     private Date communicationTime;
 
     /** 流量卡号 */
     @Excel(name = "流量卡号")
     private String simCardNumber;
+
+    @Excel(name = "账号")
+    private String account;
+
+    @Excel(name = "密码")
+    private String password;
+
+    @Excel(name = "类型")
+    private String type;
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getFunction1Balance() {
+        return function1Balance;
+    }
+
+    public void setFunction1Balance(String function1Balance) {
+        this.function1Balance = function1Balance;
+    }
+
+    @Excel(name = "功能1剩余")
+    private String function1Balance;
+    @Excel(name = "功能1调整")
+    private String function1Adjustment;
+
+    @Excel(name = "功能2剩余")
+    private String function2Balance;
+
+    public String getFunction1Adjustment() {
+        return function1Adjustment;
+    }
+
+    public void setFunction1Adjustment(String function1Adjustment) {
+        this.function1Adjustment = function1Adjustment;
+    }
+
+    public String getFunction2Balance() {
+        return function2Balance;
+    }
+
+    public void setFunction2Balance(String function2Balance) {
+        this.function2Balance = function2Balance;
+    }
+
+    public String getFunction2Adjustment() {
+        return function2Adjustment;
+    }
+
+    public void setFunction2Adjustment(String function2Adjustment) {
+        this.function2Adjustment = function2Adjustment;
+    }
+
+    public String getFunction3Balance() {
+        return function3Balance;
+    }
+
+    public void setFunction3Balance(String function3Balance) {
+        this.function3Balance = function3Balance;
+    }
+
+    public String getFunction3Adjustment() {
+        return function3Adjustment;
+    }
+
+    public void setFunction3Adjustment(String function3Adjustment) {
+        this.function3Adjustment = function3Adjustment;
+    }
+
+    @Excel(name = "功能2调整")
+    private String function2Adjustment;
+
+    @Excel(name = "功能3剩余")
+    private String function3Balance;
+    @Excel(name = "功能3调整")
+    private String function3Adjustment;
+
 
     public void setId(Long id) 
     {

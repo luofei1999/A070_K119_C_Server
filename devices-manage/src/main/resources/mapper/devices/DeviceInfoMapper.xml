@@ -8,15 +8,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="id"    column="id"    />
         <result property="groupId"    column="group_id"    />
         <result property="deviceNumber"    column="device_number"    />
+        <result property="account"    column="account"    />
+        <result property="password"    column="password"    />
+        <result property="type"    column="type"    />
+        <result property="function1Balance"    column="function1_balance"    />
+        <result property="function1Adjustment"    column="function1_adjustment"    />
+        <result property="function2Balance"    column="function2_balance"    />
+        <result property="function2Adjustment"    column="function2_adjustment"    />
+        <result property="function3Balance"    column="function3_balance"    />
+        <result property="function3Adjustment"    column="function3_adjustment"    />
         <result property="status"    column="status"    />
         <result property="userName"    column="user_name"    />
         <result property="communicationTime"    column="communication_time"    />
         <result property="simCardNumber"    column="sim_card_number"    />
         <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
     </resultMap>
 
     <sql id="selectDeviceInfoVo">
-        select id, group_id, device_number, status, user_name, communication_time, sim_card_number, remark from device_info
+        select id, group_id, device_number, status, user_name, communication_time, sim_card_number,
+               function1_balance, function1_adjustment, function2_balance, function2_adjustment,
+               function3_balance, function3_adjustment, remark, create_time, account, password, type
+        from device_info
     </sql>
 
     <select id="selectDeviceInfoList" parameterType="DeviceInfo" resultMap="DeviceInfoResult">
@@ -28,6 +41,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
             <if test="simCardNumber != null  and simCardNumber != ''"> and sim_card_number like concat('%', #{simCardNumber}, '%')</if>
         </where>
+        ORDER BY create_time DESC
     </select>
     
     <select id="selectDeviceInfoById" parameterType="Long" resultMap="DeviceInfoResult">
@@ -44,8 +58,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="userName != null">user_name,</if>
             <if test="communicationTime != null">communication_time,</if>
             <if test="simCardNumber != null">sim_card_number,</if>
+            <if test="function1Balance != null">function1_balance,</if>
+            <if test="function1Adjustment != null">function1_adjustment,</if>
+            <if test="function2Balance != null">function2_balance,</if>
+            <if test="function2Adjustment != null">function2_adjustment,</if>
+            <if test="function3Balance != null">function3_balance,</if>
+            <if test="function3Adjustment != null">function3_adjustment,</if>
             <if test="remark != null">remark,</if>
-         </trim>
+            <if test="createTime != null">create_time,</if>
+            <if test="account != null">account,</if>
+            <if test="password != null">password,</if>
+            <if test="type != null">type,</if>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="groupId != null and groupId != ''">#{groupId},</if>
             <if test="deviceNumber != null and deviceNumber != ''">#{deviceNumber},</if>
@@ -53,8 +77,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="userName != null">#{userName},</if>
             <if test="communicationTime != null">#{communicationTime},</if>
             <if test="simCardNumber != null">#{simCardNumber},</if>
+            <if test="function1Balance != null">#{function1Balance},</if>
+            <if test="function1Adjustment != null">#{function1Adjustment},</if>
+            <if test="function2Balance != null">#{function2Balance},</if>
+            <if test="function2Adjustment != null">#{function2Adjustment},</if>
+            <if test="function3Balance != null">#{function3Balance},</if>
+            <if test="function3Adjustment != null">#{function3Adjustment},</if>
             <if test="remark != null">#{remark},</if>
-         </trim>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="account != null">#{account},</if>
+            <if test="password != null">#{password},</if>
+            <if test="type != null">#{type},</if>
+        </trim>
     </insert>
 
     <update id="updateDeviceInfo" parameterType="DeviceInfo">
@@ -66,7 +100,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="userName != null">user_name = #{userName},</if>
             <if test="communicationTime != null">communication_time = #{communicationTime},</if>
             <if test="simCardNumber != null">sim_card_number = #{simCardNumber},</if>
+            <if test="function1Balance != null">function1_balance = #{function1Balance},</if>
+            <if test="function1Adjustment != null">function1_adjustment = #{function1Adjustment},</if>
+            <if test="function2Balance != null">function2_balance = #{function2Balance},</if>
+            <if test="function2Adjustment != null">function2_adjustment = #{function2Adjustment},</if>
+            <if test="function3Balance != null">function3_balance = #{function3Balance},</if>
+            <if test="function3Adjustment != null">function3_adjustment = #{function3Adjustment},</if>
             <if test="remark != null">remark = #{remark},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="account != null">account = #{account},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="type != null">type = #{type},</if>
         </trim>
         where id = #{id}
     </update>
