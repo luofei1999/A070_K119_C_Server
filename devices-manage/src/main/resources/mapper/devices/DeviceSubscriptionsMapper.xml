@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.devices.mapper.DeviceSubscriptionsMapper">
+    
+    <resultMap type="DeviceSubscriptions" id="DeviceSubscriptionsResult">
+        <result property="id"    column="id"    />
+        <result property="deviceNumber"    column="device_number"    />
+        <result property="subscriptionTime"    column="subscription_time"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectDeviceSubscriptionsVo">
+        select id, device_number, subscription_time, create_time from device_subscriptions
+    </sql>
+
+    <select id="selectDeviceSubscriptionsList" parameterType="DeviceSubscriptions" resultMap="DeviceSubscriptionsResult">
+        <include refid="selectDeviceSubscriptionsVo"/>
+        <where>  
+            <if test="deviceNumber != null  and deviceNumber != ''"> and device_number like concat('%', #{deviceNumber}, '%')</if>
+            <if test="subscriptionTime != null "> and subscription_time = #{subscriptionTime}</if>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+    
+    <select id="selectDeviceSubscriptionsById" parameterType="Long" resultMap="DeviceSubscriptionsResult">
+        <include refid="selectDeviceSubscriptionsVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectDeviceSubscriptionsByDeviceNumber" parameterType="String" resultMap="DeviceSubscriptionsResult">
+        <include refid="selectDeviceSubscriptionsVo"/>
+        where device_number = #{deviceNumber} limit 1
+    </select>
+
+    <insert id="insertDeviceSubscriptions" parameterType="DeviceSubscriptions" useGeneratedKeys="true" keyProperty="id">
+        insert into device_subscriptions
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deviceNumber != null and deviceNumber != ''">device_number,</if>
+            <if test="subscriptionTime != null">subscription_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deviceNumber != null and deviceNumber != ''">#{deviceNumber},</if>
+            <if test="subscriptionTime != null">#{subscriptionTime},</if>
+         </trim>
+        ON DUPLICATE KEY UPDATE
+        subscription_time = VALUES(subscription_time)
+    </insert>
+
+    <update id="updateDeviceSubscriptions" parameterType="DeviceSubscriptions">
+        update device_subscriptions
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceNumber != null and deviceNumber != ''">device_number = #{deviceNumber},</if>
+            <if test="subscriptionTime != null">subscription_time = #{subscriptionTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDeviceSubscriptionsById" parameterType="Long">
+        delete from device_subscriptions where id = #{id}
+    </delete>
+
+    <delete id="deleteDeviceSubscriptionsByIds" parameterType="String">
+        delete from device_subscriptions where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

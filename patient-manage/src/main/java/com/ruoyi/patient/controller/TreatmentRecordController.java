@@ -1,5 +1,6 @@
 package com.ruoyi.patient.controller;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
@@ -10,6 +11,8 @@ import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.file.FileUploadUtils;
 import com.ruoyi.common.utils.file.FileUtils;
+import com.ruoyi.devices.domain.DeviceSubscriptions;
+import com.ruoyi.devices.service.IDeviceSubscriptionsService;
 import com.ruoyi.framework.config.ServerConfig;
 import com.ruoyi.patient.domain.TreatmentImages;
 import com.ruoyi.patient.service.ITreatmentImagesService;
@@ -28,14 +31,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 治疗记录Controller
- * 
+ *
  * @author 尹罗飞
  * @date 2025-02-26
  */
 @RestController
 @RequestMapping("/patient/treatment_record")
-public class TreatmentRecordController extends BaseController
-{
+public class TreatmentRecordController extends BaseController {
+    @Autowired
+    private IDeviceSubscriptionsService deviceSubscriptionsService;
     @Autowired
     private ITreatmentRecordService treatmentRecordService;
     @Autowired
@@ -50,8 +54,7 @@ public class TreatmentRecordController extends BaseController
     @PreAuthorize("@ss.hasPermi('patient:treatment_record:list')")
     @GetMapping("/list")
     @DataScope(userAlias = "u")
-    public TableDataInfo list(TreatmentRecord treatmentRecord)
-    {
+    public TableDataInfo list(TreatmentRecord treatmentRecord) {
         startPage();
         List<TreatmentRecord> list = treatmentRecordService.selectTreatmentRecordList(treatmentRecord);
         return getDataTable(list);
@@ -69,8 +72,7 @@ public class TreatmentRecordController extends BaseController
     @PreAuthorize("@ss.hasPermi('patient:treatment_record:export')")
     @Log(title = "治疗记录", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, TreatmentRecord treatmentRecord)
-    {
+    public void export(HttpServletResponse response, TreatmentRecord treatmentRecord) {
         List<TreatmentRecord> list = treatmentRecordService.selectTreatmentRecordList(treatmentRecord);
         ExcelUtil<TreatmentRecord> util = new ExcelUtil<TreatmentRecord>(TreatmentRecord.class);
         util.exportExcel(response, list, "治疗记录数据");
@@ -81,8 +83,7 @@ public class TreatmentRecordController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('patient:treatment_record:query')")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id)
-    {
+    public AjaxResult getInfo(@PathVariable("id") Long id) {
         return success(treatmentRecordService.selectTreatmentRecordById(id));
     }
 
@@ -92,9 +93,10 @@ public class TreatmentRecordController extends BaseController
     @PreAuthorize("@ss.hasPermi('patient:treatment_record:add')")
     @Log(title = "治疗记录", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody TreatmentRecord treatmentRecord)
-    {
-       return success(treatmentRecordService.insertTreatmentRecord(treatmentRecord));
+    public AjaxResult add(@RequestBody TreatmentRecord treatmentRecord) {
+        // Update subscription time in device_subscriptions table
+        deviceSubscriptionsService.updateSubscriptionsByDeviceNumber(treatmentRecord.getTreatmentDevice(), treatmentRecord.getTreatmentDuration());
+        return success(treatmentRecordService.insertTreatmentRecord(treatmentRecord));
     }
 
     /**
@@ -103,8 +105,7 @@ public class TreatmentRecordController extends BaseController
     @PreAuthorize("@ss.hasPermi('patient:treatment_record:edit')")
     @Log(title = "治疗记录", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody TreatmentRecord treatmentRecord)
-    {
+    public AjaxResult edit(@RequestBody TreatmentRecord treatmentRecord) {
         return toAjax(treatmentRecordService.updateTreatmentRecord(treatmentRecord));
     }
 
@@ -113,9 +114,8 @@ public class TreatmentRecordController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('patient:treatment_record:remove')")
     @Log(title = "治疗记录", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids)
-    {
+    @DeleteMapping("/{ids}")
+    public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(treatmentRecordService.deleteTreatmentRecordByIds(ids));
     }
 
@@ -124,8 +124,7 @@ public class TreatmentRecordController extends BaseController
      */
     @PostMapping("/uploadImage")
     public AjaxResult uploadFileImg(@RequestParam("treatmentId") String treatmentId, @RequestParam("file") MultipartFile file, @RequestParam("isTreatmentAfter") String isTreatmentAfter) {
-        try
-        {
+        try {
             // 上传文件路径
             String filePath = RuoYiConfig.getUploadImagePath();
             // 上传并返回新文件名称
@@ -157,9 +156,7 @@ public class TreatmentRecordController extends BaseController
             ajax.put("user_id", SecurityUtils.getUserId());
             ajax.put("user_name", SecurityUtils.getUsername());
             return ajax;
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             return AjaxResult.error(e.getMessage());
         }
     }
