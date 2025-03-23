@@ -111,7 +111,6 @@ public class DeviceSubscriptionsController extends BaseController
     @PostMapping("/add")
     public AjaxResult addDeviceNumber(@RequestBody DeviceSubscriptions deviceSubscriptions)
     {
-        System.out.println(deviceSubscriptions.getUseTime());
         return toAjax(deviceSubscriptionsService.addSubscriptionsDevice(deviceSubscriptions));
     }
 

@@ -114,10 +114,16 @@ public class DeviceSubscriptionsServiceImpl implements IDeviceSubscriptionsServi
 
             return 1; // Device already exists, return success
         }
+        // Set subscription time to 0
         deviceSubscriptions.setSubscriptionTime(LocalTime.of(0, 0, 0));
         return insertDeviceSubscriptions(deviceSubscriptions);
     }
 
+    /**
+     * Update subscription time by device number
+     * @param deviceNumber 设备编号
+     * @param treatmentTime 治疗时间
+     */
     @Override
     public void updateSubscriptionsByDeviceNumber(String deviceNumber, String treatmentTime) {
 

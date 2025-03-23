@@ -61,9 +61,18 @@ public interface IDeviceSubscriptionsService
      */
     public int deleteDeviceSubscriptionsById(Long id);
 
+    /**
+     * 根据设备编号查询订阅信息
+     * @param deviceSubscriptions 设备
+     * @return 结果
+     */
     public int addSubscriptionsDevice(DeviceSubscriptions deviceSubscriptions);
 
-    public void updateSubscriptionsByDeviceNumber(String deviceNumber, String subscriptionTime);
+    /**
+     * 根据设备号查询订阅信息,并更新使用时间
+     * @param deviceNumber 设备号
+     */
+    public void updateSubscriptionsByDeviceNumber(String deviceNumber, String useTime);
 
 
 }

@@ -32,7 +32,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="userId != null "> and u.user_id = #{userId}</if>
 
-            <!-- <if test="userName != null "> and user_name = #{userName}</if> -->
              <if test="userName != null and userName != ''"> and t.user_name LIKE CONCAT('%', #{userName}, '%')</if>
              <if test="treatmentPlan != null  and treatmentPlan != ''"> and treatment_plan = #{treatmentPlan}</if>
              <if test="treatmentDevice != null  and treatmentDevice != ''"> and treatment_device = #{treatmentDevice}</if>
