@@ -95,7 +95,7 @@ public class TreatmentRecordController extends BaseController {
     @PostMapping
     public AjaxResult add(@RequestBody TreatmentRecord treatmentRecord) {
         // Update subscription time in device_subscriptions table
-        deviceSubscriptionsService.updateSubscriptionsByDeviceNumber(treatmentRecord.getTreatmentDevice(), treatmentRecord.getTreatmentDuration());
+//        deviceSubscriptionsService.updateSubscriptionsByDeviceNumber(treatmentRecord.getTreatmentDevice(), treatmentRecord.getTreatmentDuration());
         return success(treatmentRecordService.insertTreatmentRecord(treatmentRecord));
     }
 

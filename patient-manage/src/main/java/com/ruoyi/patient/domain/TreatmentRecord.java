@@ -73,6 +73,17 @@ public class TreatmentRecord extends BaseEntity
     @Excel(name = "治疗地址")
     private String treatmentLocation;
 
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    @Excel(name = "包含图片")
+    private String img;
+
     private List<TreatmentImages> treatmentImages = new ArrayList<>();
 
     public List<TreatmentImages> getTreatmentImages() {

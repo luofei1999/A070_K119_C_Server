@@ -16,12 +16,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="totalEnergyOutput"    column="total_energy_output"    />
         <result property="treatmentDevice"    column="treatment_device"    />
         <result property="treatmentLocation"    column="treatment_location"    />
+        <result property="img"    column="img"    />
     </resultMap>
 
     <sql id="selectTreatmentRecordVo">
         select t.id, t.user_id, t.user_name, t.treatment_plan, t.treatment_duration,
                t.treatment_start_time, t.treatment_end_time, t.treatment_energy,
-               t.total_energy_output, t.treatment_device, t.treatment_location
+               t.total_energy_output, t.treatment_device, t.treatment_location, t.img
         from treatment_record t
                  left join sys_user u on t.user_id = u.user_id
     </sql>
@@ -59,6 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="totalEnergyOutput != null">total_energy_output,</if>
             <if test="treatmentDevice != null">treatment_device,</if>
             <if test="treatmentLocation != null">treatment_location,</if>
+            <if test="img != null">img,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId != null">#{userId},</if>
@@ -71,6 +73,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="totalEnergyOutput != null">#{totalEnergyOutput},</if>
             <if test="treatmentDevice != null">#{treatmentDevice},</if>
             <if test="treatmentLocation != null">#{treatmentLocation},</if>
+            <if test="img != null">#{img},</if>
          </trim>
     </insert>
 
@@ -87,6 +90,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="totalEnergyOutput != null">total_energy_output = #{totalEnergyOutput},</if>
             <if test="treatmentDevice != null">treatment_device = #{treatmentDevice},</if>
             <if test="treatmentLocation != null">treatment_location = #{treatmentLocation},</if>
+            <if test="img != null">img = #{img},</if>
         </trim>
         where id = #{id}
     </update>
