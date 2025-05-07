@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.patient.mapper.DoctorPatientMapper">
+    
+    <resultMap type="DoctorPatient" id="DoctorPatientResult">
+        <result property="id"    column="id"    />
+        <result property="doctorid"    column="doctorid"    />
+        <result property="patientname"    column="patientname"    />
+        <result property="birthday"    column="birthday"    />
+        <result property="age"    column="age"    />
+        <result property="gender"    column="gender"    />
+        <result property="martialstatus"    column="martialstatus"    />
+        <result property="phone"    column="phone"    />
+        <result property="street"    column="street"    />
+        <result property="city"    column="city"    />
+        <result property="state"    column="state"    />
+        <result property="zipcode"    column="zipcode"    />
+        <result property="email"    column="email"    />
+    </resultMap>
+
+    <sql id="selectDoctorPatientVo">
+        select id, doctorid, patientname, birthday, age, gender, martialstatus, phone, street, city, state, zipcode, email from doctor_patient
+    </sql>
+
+    <select id="selectDoctorPatientList" parameterType="DoctorPatient" resultMap="DoctorPatientResult">
+        <include refid="selectDoctorPatientVo"/>
+        <where>  
+            <if test="doctorid != null "> and doctorid = #{doctorid}</if>
+            <if test="patientname != null  and patientname != ''"> and patientname like concat('%', #{patientname}, '%')</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+        </where>
+    </select>
+    
+    <select id="selectDoctorPatientById" parameterType="Long" resultMap="DoctorPatientResult">
+        <include refid="selectDoctorPatientVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertDoctorPatient" parameterType="DoctorPatient" useGeneratedKeys="true" keyProperty="id">
+        insert into doctor_patient
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="doctorid != null">doctorid,</if>
+            <if test="patientname != null and patientname != ''">patientname,</if>
+            <if test="birthday != null">birthday,</if>
+            <if test="age != null">age,</if>
+            <if test="gender != null">gender,</if>
+            <if test="martialstatus != null">martialstatus,</if>
+            <if test="phone != null">phone,</if>
+            <if test="street != null">street,</if>
+            <if test="city != null">city,</if>
+            <if test="state != null">state,</if>
+            <if test="zipcode != null">zipcode,</if>
+            <if test="email != null">email,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="doctorid != null">#{doctorid},</if>
+            <if test="patientname != null and patientname != ''">#{patientname},</if>
+            <if test="birthday != null">#{birthday},</if>
+            <if test="age != null">#{age},</if>
+            <if test="gender != null">#{gender},</if>
+            <if test="martialstatus != null">#{martialstatus},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="street != null">#{street},</if>
+            <if test="city != null">#{city},</if>
+            <if test="state != null">#{state},</if>
+            <if test="zipcode != null">#{zipcode},</if>
+            <if test="email != null">#{email},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDoctorPatient" parameterType="DoctorPatient">
+        update doctor_patient
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="doctorid != null">doctorid = #{doctorid},</if>
+            <if test="patientname != null and patientname != ''">patientname = #{patientname},</if>
+            <if test="birthday != null">birthday = #{birthday},</if>
+            <if test="age != null">age = #{age},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="martialstatus != null">martialstatus = #{martialstatus},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="street != null">street = #{street},</if>
+            <if test="city != null">city = #{city},</if>
+            <if test="state != null">state = #{state},</if>
+            <if test="zipcode != null">zipcode = #{zipcode},</if>
+            <if test="email != null">email = #{email},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDoctorPatientById" parameterType="Long">
+        delete from doctor_patient where id = #{id}
+    </delete>
+
+    <delete id="deleteDoctorPatientByIds" parameterType="String">
+        delete from doctor_patient where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

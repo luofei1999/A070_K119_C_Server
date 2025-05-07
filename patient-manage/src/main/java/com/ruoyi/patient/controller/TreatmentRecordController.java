@@ -166,6 +166,8 @@ public class TreatmentRecordController extends BaseController {
      */
     @PostMapping("/uploadTreatmentBeforeImages")
     public AjaxResult uploadTreatmentBeforeImages(@RequestParam("treatmentId") String treatmentId,
+                                                  @RequestParam("userId") Long userId,
+                                                  @RequestParam("userName") String userName,
                                                   @RequestPart("files") List<MultipartFile> files) {
         try {
             // 上传文件路径
@@ -184,8 +186,8 @@ public class TreatmentRecordController extends BaseController {
                 // 构造治疗图片实体对象
                 TreatmentImages treatmentImages = new TreatmentImages();
                 treatmentImages.setTreatmentId(Long.parseLong(treatmentId)); // 注意类型转换
-                treatmentImages.setUserId(SecurityUtils.getUserId());
-                treatmentImages.setUserName(SecurityUtils.getUsername());
+                treatmentImages.setUserId(userId); // 注意类型转换
+                treatmentImages.setUserName(userName);
                 treatmentImages.setName(newName); // 保存文件名
                 treatmentImages.setPath(fileName);    // 保存文件存储路径
                 treatmentImages.setUrl(url);     // 保存访问地址
@@ -209,8 +211,8 @@ public class TreatmentRecordController extends BaseController {
             ajax.put("treatment_id", treatmentId);
 
             // 获取当前的用户名称
-            ajax.put("user_id", SecurityUtils.getUserId());
-            ajax.put("user_name", SecurityUtils.getUsername());
+            ajax.put("user_id", userId);
+            ajax.put("user_name", userName);
             return ajax;
         } catch (Exception e) {
             return AjaxResult.error(e.getMessage());
@@ -222,6 +224,8 @@ public class TreatmentRecordController extends BaseController {
      */
     @PostMapping("/uploadTreatmentAfterImages")
     public AjaxResult uploadTreatmentAfterImages(@RequestParam("treatmentId") String treatmentId,
+                                                 @RequestParam("userId") Long userId,
+                                                 @RequestParam("userName") String userName,
                                                  @RequestPart("files") List<MultipartFile> files) {
         try {
             // 上传文件路径
@@ -240,8 +244,8 @@ public class TreatmentRecordController extends BaseController {
                 // 构造治疗图片实体对象
                 TreatmentImages treatmentImages = new TreatmentImages();
                 treatmentImages.setTreatmentId(Long.parseLong(treatmentId)); // 注意类型转换
-                treatmentImages.setUserId(SecurityUtils.getUserId());
-                treatmentImages.setUserName(SecurityUtils.getUsername());
+                treatmentImages.setUserId(userId); // 注意类型转换
+                treatmentImages.setUserName(userName);
                 treatmentImages.setName(newName); // 保存文件名
                 treatmentImages.setPath(fileName);    // 保存文件存储路径
                 treatmentImages.setUrl(url);     // 保存访问地址
@@ -265,8 +269,8 @@ public class TreatmentRecordController extends BaseController {
             ajax.put("treatment_id", treatmentId);
 
             // 获取当前的用户名称
-            ajax.put("user_id", SecurityUtils.getUserId());
-            ajax.put("user_name", SecurityUtils.getUsername());
+            ajax.put("user_id", userId);
+            ajax.put("user_name", userName);
             return ajax;
         } catch (Exception e) {
             return AjaxResult.error(e.getMessage());
