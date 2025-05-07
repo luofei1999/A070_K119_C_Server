@@ -14,7 +14,9 @@ import com.ruoyi.common.utils.file.FileUtils;
 import com.ruoyi.devices.domain.DeviceSubscriptions;
 import com.ruoyi.devices.service.IDeviceSubscriptionsService;
 import com.ruoyi.framework.config.ServerConfig;
+import com.ruoyi.patient.domain.DoctorPatient;
 import com.ruoyi.patient.domain.TreatmentImages;
+import com.ruoyi.patient.service.IDoctorPatientService;
 import com.ruoyi.patient.service.ITreatmentImagesService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +46,10 @@ public class TreatmentRecordController extends BaseController {
     private ITreatmentRecordService treatmentRecordService;
     @Autowired
     private ITreatmentImagesService treatmentImagesService; // 自动注入
+
+    @Autowired
+    private IDoctorPatientService doctorPatientService;
+
     @Autowired
     private ServerConfig serverConfig;
     private static final String FILE_DELIMETER = ",";
@@ -57,6 +63,14 @@ public class TreatmentRecordController extends BaseController {
     public TableDataInfo list(TreatmentRecord treatmentRecord) {
         startPage();
         List<TreatmentRecord> list = treatmentRecordService.selectTreatmentRecordList(treatmentRecord);
+        return getDataTable(list);
+    }
+
+    @PreAuthorize("@ss.hasPermi('patient:treatment_record:list')")
+    @GetMapping("/listNoUser")
+    public TableDataInfo listNoUser(TreatmentRecord treatmentRecord) {
+        startPage();
+        List<TreatmentRecord> list = treatmentRecordService.selectTreatmentRecordListNoUser(treatmentRecord);
         return getDataTable(list);
     }
 
@@ -96,6 +110,12 @@ public class TreatmentRecordController extends BaseController {
     public AjaxResult add(@RequestBody TreatmentRecord treatmentRecord) {
         // Update subscription time in device_subscriptions table
 //        deviceSubscriptionsService.updateSubscriptionsByDeviceNumber(treatmentRecord.getTreatmentDevice(), treatmentRecord.getTreatmentDuration());
+
+        // Update last treatment time
+        DoctorPatient doctorPatient = doctorPatientService.selectDoctorPatientById(treatmentRecord.getUserId());
+        doctorPatient.setLastTime(treatmentRecord.getTreatmentEndTime());
+        doctorPatientService.updateDoctorPatient(doctorPatient);
+        // Insert treatment record
         return success(treatmentRecordService.insertTreatmentRecord(treatmentRecord));
     }
 

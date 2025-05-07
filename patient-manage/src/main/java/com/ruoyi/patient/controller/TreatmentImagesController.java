@@ -45,7 +45,21 @@ public class TreatmentImagesController extends BaseController
     public TableDataInfo list(TreatmentImages treatmentImages)
     {
         startPage();
+
         List<TreatmentImages> list = treatmentImagesService.selectTreatmentImagesList(treatmentImages);
+        return getDataTable(list);
+    }
+
+    /**
+     * 查询治疗图片列表
+     */
+    @PreAuthorize("@ss.hasPermi('patient:treatment_images:list')")
+    @GetMapping("/imageList")
+    public TableDataInfo imageList(TreatmentImages treatmentImages)
+    {
+        startPage();
+        List<TreatmentImages> list = treatmentImagesService.selectTreatmentImagesListNoUser(treatmentImages);
+
         return getDataTable(list);
     }
 

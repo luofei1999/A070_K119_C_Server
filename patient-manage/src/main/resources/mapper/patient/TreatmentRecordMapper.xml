@@ -27,6 +27,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                  left join sys_user u on t.user_id = u.user_id
     </sql>
 
+    <sql id="selectTreatmentRecordVoNoUser">
+        select t.id, t.user_id, t.user_name, t.treatment_plan, t.treatment_duration,
+               t.treatment_start_time, t.treatment_end_time, t.treatment_energy,
+               t.total_energy_output, t.treatment_device, t.treatment_location, t.img
+        from treatment_record t
+    </sql>
+
 
     <select id="selectTreatmentRecordList" parameterType="TreatmentRecord" resultMap="TreatmentRecordResult">
         <include refid="selectTreatmentRecordVo"/>
@@ -38,6 +45,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              <if test="treatmentDevice != null  and treatmentDevice != ''"> and treatment_device = #{treatmentDevice}</if>
              <!-- 数据范围过滤 -->
             ${params.dataScope}
+        </where>
+        ORDER BY t.treatment_end_time DESC
+    </select>
+
+    <select id="selectTreatmentRecordListNoUser" parameterType="TreatmentRecord" resultMap="TreatmentRecordResult">
+        <include refid="selectTreatmentRecordVoNoUser"/>
+        <where>
+            <if test="userId != null "> and user_id = #{userId}</if>
+
+            <if test="userName != null and userName != ''"> and user_name LIKE CONCAT('%', #{userName}, '%')</if>
+            <if test="treatmentPlan != null  and treatmentPlan != ''"> and treatment_plan = #{treatmentPlan}</if>
+            <if test="treatmentDevice != null  and treatmentDevice != ''"> and treatment_device = #{treatmentDevice}</if>
         </where>
         ORDER BY t.treatment_end_time DESC
     </select>

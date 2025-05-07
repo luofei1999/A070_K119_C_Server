@@ -26,6 +26,8 @@ public interface ITreatmentImagesService
      * @return 治疗图片集合
      */
     public List<TreatmentImages> selectTreatmentImagesList(TreatmentImages treatmentImages);
+    public List<TreatmentImages> selectTreatmentImagesListNoUser(TreatmentImages treatmentImages);
+
 
     /**
      * 新增治疗图片

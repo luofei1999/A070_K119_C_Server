@@ -28,6 +28,16 @@ public interface TreatmentImagesMapper
     public List<TreatmentImages> selectTreatmentImagesList(TreatmentImages treatmentImages);
 
     /**
+     * 查询治疗图片列表
+     *
+     * @param treatmentImages 治疗图片
+     * @return 治疗图片集合
+     */
+    public List<TreatmentImages> selectTreatmentImagesListNoUser(TreatmentImages treatmentImages);
+
+
+
+    /**
      * 新增治疗图片
      * 
      * @param treatmentImages 治疗图片

@@ -31,9 +31,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
             <if test="path != null  and path != ''"> and path = #{path}</if>
             <if test="url != null  and url != ''"> and url = #{url}</if>
-            <if test="isTreatmentAfter != null  and url != ''"> and is_treatment_after = #{isTreatmentAfter}</if>
+            <if test="isTreatmentAfter != null  and isTreatmentAfter != ''"> and is_treatment_after = #{isTreatmentAfter}</if>
             <!-- 数据范围过滤 -->
             ${params.dataScope}
+        </where>
+        ORDER BY t.create_time DESC
+    </select>
+
+    <sql id="selectTreatmentImagesVoNoUser">
+        select t.id, t.treatment_id, t.user_id, t.user_name, t.name, t.path, t.url,t.is_treatment_after, t.create_time
+        from treatment_images t
+    </sql>
+
+    <select id="selectTreatmentImagesListNoUser" parameterType="TreatmentImages" resultMap="TreatmentImagesResult">
+        <include refid="selectTreatmentImagesVoNoUser"/>
+        <where>
+            <if test="treatmentId != null "> and treatment_id = #{treatmentId}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="userName != null "> and user_name = #{userName}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="path != null  and path != ''"> and path = #{path}</if>
+            <if test="url != null  and url != ''"> and url = #{url}</if>
+            <if test="isTreatmentAfter != null  and isTreatmentAfter != ''"> and is_treatment_after = #{isTreatmentAfter}</if>
         </where>
         ORDER BY t.create_time DESC
     </select>

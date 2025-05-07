@@ -44,6 +44,14 @@ public class TreatmentImagesServiceImpl implements ITreatmentImagesService
         return treatmentImagesMapper.selectTreatmentImagesList(treatmentImages);
     }
 
+    @Override
+    public List<TreatmentImages> selectTreatmentImagesListNoUser(TreatmentImages treatmentImages)
+    {
+        return treatmentImagesMapper.selectTreatmentImagesListNoUser(treatmentImages);
+    }
+
+
+
     /**
      * 新增治疗图片
      * 

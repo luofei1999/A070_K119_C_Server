@@ -45,6 +45,14 @@ public class TreatmentRecordServiceImpl implements ITreatmentRecordService
         return treatmentRecordMapper.selectTreatmentRecordList(treatmentRecord);
     }
 
+    @Override
+    public List<TreatmentRecord> selectTreatmentRecordListNoUser(TreatmentRecord treatmentRecord)
+    {
+        return treatmentRecordMapper.selectTreatmentRecordListNoUser(treatmentRecord);
+    }
+
+
+
     /**
      * 新增治疗记录
      * 

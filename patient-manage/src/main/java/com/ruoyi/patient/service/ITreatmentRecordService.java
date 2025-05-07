@@ -26,6 +26,7 @@ public interface ITreatmentRecordService
      * @return 治疗记录集合
      */
     public List<TreatmentRecord> selectTreatmentRecordList(TreatmentRecord treatmentRecord);
+    public List<TreatmentRecord> selectTreatmentRecordListNoUser(TreatmentRecord treatmentRecord);
 
     /**
      * 新增治疗记录

@@ -69,6 +69,18 @@ public class DoctorPatient extends BaseEntity
     @Excel(name = "邮箱")
     private String email;
 
+    public Date getLastTime() {
+        return lastTime;
+    }
+
+    public void setLastTime(Date lastTime) {
+        this.lastTime = lastTime;
+    }
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Excel(name = "最近一次治疗", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
+    private Date lastTime;
+
     public void setId(Long id) 
     {
         this.id = id;

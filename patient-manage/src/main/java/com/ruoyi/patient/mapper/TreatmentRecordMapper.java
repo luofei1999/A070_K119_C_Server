@@ -27,6 +27,10 @@ public interface TreatmentRecordMapper
      */
     public List<TreatmentRecord> selectTreatmentRecordList(TreatmentRecord treatmentRecord);
 
+    public List<TreatmentRecord> selectTreatmentRecordListNoUser(TreatmentRecord treatmentRecord);
+
+
+
     /**
      * 新增治疗记录
      * 
