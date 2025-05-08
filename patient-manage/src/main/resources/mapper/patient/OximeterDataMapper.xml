@@ -20,6 +20,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                  left join sys_user u on o.user_id = u.user_id
     </sql>
 
+    <sql id="selectOximeterDataVoNoUser">
+        select o.oximeter_id, o.user_id, o.user_name, o.spo2, o.pr, o.pi, o.create_time
+        from oximeter_data o
+    </sql>
+
 
     <select id="selectOximeterDataList" parameterType="OximeterData" resultMap="OximeterDataResult">
         <include refid="selectOximeterDataVo"/>
@@ -29,6 +34,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null "> and create_time like concat('%', #{createTime}, '%')</if>
             <!-- 数据范围过滤 -->
             ${params.dataScope}
+        </where>
+        ORDER BY o.create_time DESC
+    </select>
+
+    <select id="selectOximeterDataListNoUser" parameterType="OximeterData" resultMap="OximeterDataResult">
+        <include refid="selectOximeterDataVoNoUser"/>
+        <where>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="userName != null and userName != ''"> and o.user_name LIKE CONCAT('%', #{userName}, '%')</if>
+            <if test="createTime != null "> and create_time like concat('%', #{createTime}, '%')</if>
         </where>
         ORDER BY o.create_time DESC
     </select>

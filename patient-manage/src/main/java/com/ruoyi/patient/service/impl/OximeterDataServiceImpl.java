@@ -44,6 +44,12 @@ public class OximeterDataServiceImpl implements IOximeterDataService
         return oximeterDataMapper.selectOximeterDataList(oximeterData);
     }
 
+    @Override
+    public List<OximeterData> selectOximeterDataListNoUser(OximeterData oximeterData)
+    {
+        return oximeterDataMapper.selectOximeterDataListNoUser(oximeterData);
+    }
+
     /**
      * 新增血氧仪
      * 

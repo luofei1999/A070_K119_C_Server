@@ -49,6 +49,16 @@ public class OximeterDataController extends BaseController
         return getDataTable(list);
     }
 
+    @PreAuthorize("@ss.hasPermi('patient:oximeter:list')")
+    @GetMapping("/listNoUser")
+    public TableDataInfo listNoUser(OximeterData oximeterData)
+    {
+        startPage();
+        System.out.println("查询id" + oximeterData.getUserId());
+        List<OximeterData> list = oximeterDataService.selectOximeterDataListNoUser(oximeterData);
+        return getDataTable(list);
+    }
+
     /**
      * 导出血氧仪列表
      */

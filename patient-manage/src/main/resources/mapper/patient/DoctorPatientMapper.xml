@@ -32,6 +32,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="patientname != null  and patientname != ''"> and patientname like concat('%', #{patientname}, '%')</if>
             <if test="email != null  and email != ''"> and email = #{email}</if>
         </where>
+        ORDER BY last_time DESC
     </select>
     
     <select id="selectDoctorPatientById" parameterType="Long" resultMap="DoctorPatientResult">

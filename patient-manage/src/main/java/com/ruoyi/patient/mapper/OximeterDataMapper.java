@@ -26,6 +26,7 @@ public interface OximeterDataMapper
      * @return 血氧仪集合
      */
     public List<OximeterData> selectOximeterDataList(OximeterData oximeterData);
+    public List<OximeterData> selectOximeterDataListNoUser(OximeterData oximeterData);
 
     /**
      * 新增血氧仪
