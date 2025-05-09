@@ -2,6 +2,8 @@ package com.ruoyi.patient.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.common.utils.SecurityUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,6 +43,15 @@ public class DoctorPatientController extends BaseController
     @GetMapping("/list")
     public TableDataInfo list(DoctorPatient doctorPatient)
     {
+        // 获取当前用户ID
+        Long userId = SecurityUtils.getUserId();
+        // 判断当前用户是否是管理员
+        boolean isAdmin = SecurityUtils.isAdmin(userId);
+        // 如果是管理员，则查询所有患者
+        if (isAdmin) {
+            // 设置查询条件
+            doctorPatient.setDoctorid(null);
+        }
         startPage();
         List<DoctorPatient> list = doctorPatientService.selectDoctorPatientList(doctorPatient);
         return getDataTable(list);
