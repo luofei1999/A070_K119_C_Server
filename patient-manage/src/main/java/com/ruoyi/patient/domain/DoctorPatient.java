@@ -24,6 +24,17 @@ public class DoctorPatient extends BaseEntity
     @Excel(name = "医生ID")
     private Long doctorid;
 
+    public String getZogniqId() {
+        return zogniqId;
+    }
+
+    public void setZogniqId(String zogniqId) {
+        this.zogniqId = zogniqId;
+    }
+
+    @Excel(name = "患者ID")
+    private String zogniqId;
+
     /** 名称 */
     @Excel(name = "名称")
     private String patientname;

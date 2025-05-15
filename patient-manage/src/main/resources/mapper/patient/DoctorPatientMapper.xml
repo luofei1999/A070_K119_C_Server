@@ -19,10 +19,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="zipcode"    column="zipcode"    />
         <result property="email"    column="email"    />
         <result property="lastTime"    column="last_time"    />
+        <result property="zogniqId"    column="zogniq_id"    />
     </resultMap>
 
     <sql id="selectDoctorPatientVo">
-        select id, doctorid, patientname, birthday, age, gender, martialstatus, phone, street, city, state, zipcode, email, last_time from doctor_patient
+        select id, doctorid, patientname, birthday, age, gender, martialstatus, phone, street, city, state, zipcode, email, last_time, zogniq_id from doctor_patient
     </sql>
 
     <select id="selectDoctorPatientList" parameterType="DoctorPatient" resultMap="DoctorPatientResult">
@@ -56,6 +57,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="zipcode != null">zipcode,</if>
             <if test="email != null">email,</if>
             <if test="lastTime != null">last_time,</if>
+            <if test="zogniqId != null">zogniq_id,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="doctorid != null">#{doctorid},</if>
@@ -71,6 +73,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="zipcode != null">#{zipcode},</if>
             <if test="email != null">#{email},</if>
             <if test="lastTime != null">#{lastTime},</if>
+            <if test="zogniqId != null">#{zogniqId},</if>
          </trim>
     </insert>
 
@@ -90,6 +93,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="zipcode != null">zipcode = #{zipcode},</if>
             <if test="email != null">email = #{email},</if>
             <if test="lastTime != null">last_time = #{lastTime},</if>
+            <if test="zogniqId != null">zogniq_id = #{zogniqId},</if>
         </trim>
         where id = #{id}
     </update>
