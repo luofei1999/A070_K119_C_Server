@@ -11,17 +11,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="spo2"    column="spo2"    />
         <result property="pr"    column="pr"    />
         <result property="pi"    column="pi"    />
+        <result property="sys"    column="sys"    />
+        <result property="dia"    column="dia"    />
         <result property="createTime"    column="create_time"    />
     </resultMap>
 
     <sql id="selectOximeterDataVo">
-        select o.oximeter_id, o.user_id, o.user_name, o.spo2, o.pr, o.pi, o.create_time
+        select o.oximeter_id, o.user_id, o.user_name, o.spo2, o.pr, o.pi, o.sys, o.dia, o.create_time
         from oximeter_data o
                  left join sys_user u on o.user_id = u.user_id
     </sql>
 
     <sql id="selectOximeterDataVoNoUser">
-        select o.oximeter_id, o.user_id, o.user_name, o.spo2, o.pr, o.pi, o.create_time
+        select o.oximeter_id, o.user_id, o.user_name, o.spo2, o.pr, o.pi, o.sys, o.dia, o.create_time
         from oximeter_data o
     </sql>
 
@@ -62,6 +64,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="spo2 != null">spo2,</if>
             <if test="pr != null">pr,</if>
             <if test="pi != null">pi,</if>
+            <if test="sys != null">sys,</if>
+            <if test="dia != null">dia,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="oximeterId != null">#{oximeterId},</if>
@@ -70,6 +74,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="spo2 != null">#{spo2},</if>
             <if test="pr != null">#{pr},</if>
             <if test="pi != null">#{pi},</if>
+            <if test="sys != null">#{sys},</if>
+            <if test="dia != null">#{dia},</if>
          </trim>
     </insert>
 
@@ -81,6 +87,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="spo2 != null">spo2 = #{spo2},</if>
             <if test="pr != null">pr = #{pr},</if>
             <if test="pi != null">pi = #{pi},</if>
+            <if test="sys != null">sys = #{sys},</if>
+            <if test="dia != null">dia = #{dia},</if>
         </trim>
         where oximeter_id = #{oximeterId}
     </update>

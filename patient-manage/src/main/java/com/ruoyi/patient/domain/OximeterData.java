@@ -37,7 +37,29 @@ public class OximeterData extends BaseEntity
     @Excel(name = "血压")
     private Float pi;
 
-    public void setOximeterId(Long oximeterId) 
+    @Excel(name = "收缩压")
+    private Integer sys;
+
+    @Excel(name = "舒张压")
+    private Integer dia;
+
+    public Integer getSys() {
+        return sys;
+    }
+
+    public void setSys(Integer sys) {
+        this.sys = sys;
+    }
+
+    public Integer getDia() {
+        return dia;
+    }
+
+    public void setDia(Integer dia) {
+        this.dia = dia;
+    }
+
+    public void setOximeterId(Long oximeterId)
     {
         this.oximeterId = oximeterId;
     }
